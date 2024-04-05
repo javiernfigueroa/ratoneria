@@ -7,8 +7,11 @@ import Post from '../views/Post';
 import Profile from '../views/Profile';
 import Register from '../views/Register';
 import Layout from '../layout/Layout';
+import { AppContext } from '../context/AppContext';
+import { useContext } from 'react';
 
 function AppRoutes() {
+  const { isLoggedIn } = useContext(AppContext);
   return (
     <Routes>
       <Route
@@ -22,9 +25,13 @@ function AppRoutes() {
       <Route
         path="/post"
         element={
-          <Layout>
-            <Post />
-          </Layout>
+          isLoggedIn ? (
+            <Layout>
+              <Post />
+            </Layout>
+          ) : (
+            <Login />
+          )
         }
       />
       <Route
@@ -40,9 +47,13 @@ function AppRoutes() {
       <Route
         path="/profile"
         element={
-          <Layout>
-            <Profile />
-          </Layout>
+          isLoggedIn ? (
+            <Layout>
+              <Profile />
+            </Layout>
+          ) : (
+            <Login />
+          )
         }
       />
       <Route path="/register" element={<Register />} />
