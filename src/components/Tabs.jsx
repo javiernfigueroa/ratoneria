@@ -4,6 +4,7 @@ import axios from 'axios';
 function Tabs({ localId }) {
   const [activeTabIndex, setActiveTabIndex] = useState(0);
   const [consumedData, setConsumedData] = useState();
+  const [reviewData, setReviewData] = useState();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -12,25 +13,37 @@ function Tabs({ localId }) {
           `http://localhost:3000/api/v1/consumed/${localId}`,
         );
         setConsumedData(response.data.consumed);
+        //console.log(consumedData)
+
+        const resReview = await axios.get(
+          `http://localhost:3000/api/v1/reviews/${localId}`,
+        );
+        setReviewData(resReview.data.reviews);
+
       } catch (error) {
         console.error('Error fetching data:', error);
       }
     };
-
+     
+    
     fetchData();
   }, [localId]);
 
+  console.log(reviewData)
   const tabsData = [
     {
       label: 'Precios',
       content:
         consumedData && consumedData[0]
-          ? consumedData[0].price_paid
+          ? `${consumedData[0].product}: ${consumedData[0].price_paid}`
           : 'Loading...',
     },
     {
       label: 'Comentarios',
-      content: 'Tabien',
+      content: 
+        reviewData && reviewData[0]
+          ?  ` ${reviewData[1].nickname.toUpperCase()}: ${reviewData[1].comment} `
+          : "sin comentarios",
     },
   ];
 

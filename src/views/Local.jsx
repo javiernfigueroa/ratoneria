@@ -20,7 +20,7 @@ function Local() {
       (card) => card.shop_id.toString() === id.toString(),
     );
     setLocal(foundLocal);
-    localStorage.setItem('local', JSON.stringify(foundLocal));
+    //localStorage.setItem('local', JSON.stringify(foundLocal));
   }, [id, cards]);
 
   if (!local) {
