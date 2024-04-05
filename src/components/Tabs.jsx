@@ -19,31 +19,36 @@ function Tabs({ localId }) {
           `http://localhost:3000/api/v1/reviews/${localId}`,
         );
         setReviewData(resReview.data.reviews);
-
       } catch (error) {
         console.error('Error fetching data:', error);
       }
     };
-     
-    
     fetchData();
   }, [localId]);
 
-  console.log(reviewData)
+  console.log(reviewData);
   const tabsData = [
     {
       label: 'Precios',
       content:
-        consumedData && consumedData[0]
-          ? `${consumedData[0].product}: ${consumedData[0].price_paid}`
-          : 'Loading...',
+        consumedData && consumedData.length > 0
+          ? consumedData.map((consumed, index) => (
+              <p key={index}>
+                {`${consumed.product.toUpperCase()}: ${consumed.price_paid}`}
+              </p>
+            ))
+          : 'No se agregado precios',
     },
     {
       label: 'Comentarios',
-      content: 
-        reviewData && reviewData[0]
-          ?  ` ${reviewData[1].nickname.toUpperCase()}: ${reviewData[1].comment} `
-          : "sin comentarios",
+      content:
+        reviewData && reviewData.length > 0
+          ? reviewData.map((review, index) => (
+              <p key={index}>
+                {`${review.nickname.toUpperCase()}: ${review.comment}`}
+              </p>
+            ))
+          : 'Sin comentarios',
     },
   ];
 
