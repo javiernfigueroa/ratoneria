@@ -32,9 +32,9 @@ function Tabs({ localId }) {
       content:
         consumedData && consumedData.length > 0
           ? consumedData.map((consumed, index) => (
-              <p key={index}>
+              <span className="flex flex-col" key={index}>
                 {`${consumed.product.toUpperCase()}: ${consumed.price_paid}`}
-              </p>
+              </span>
             ))
           : 'No se agregado precios',
     },
@@ -43,9 +43,9 @@ function Tabs({ localId }) {
       content:
         reviewData && reviewData.length > 0
           ? reviewData.map((review, index) => (
-              <p key={index}>
+              <span className="flex flex-col" key={index}>
                 {`${review.nickname.toUpperCase()}: ${review.comment}`}
-              </p>
+              </span>
             ))
           : 'Sin comentarios',
     },
@@ -70,7 +70,7 @@ function Tabs({ localId }) {
           );
         })}
       </div>
-      <div className='py-4 ml-4'>
+      <div className="py-4 ml-4">
         <p>{tabsData[activeTabIndex].content || 'Loading...'}</p>
         {/* {tabsData[activeTabIndex].label === "Precios"
         ? <Button>Agregar</Button>
