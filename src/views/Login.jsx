@@ -13,6 +13,9 @@ function Login() {
     password: '',
   });
 
+  const [errorMessage, setErrorMessage] = useState('');
+
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({
@@ -41,11 +44,17 @@ function Login() {
   //   localStorage.setItem('userData', JSON.stringify(userData));
   // };
 
+  const handleCloseAlert = () => {
+    setErrorMessage('');
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     if (!formData.username || !formData.password) {
-      console.error('Por favor ingresa un correo electrónico y una contraseña');
+      console.error('Ingresa un correo electrónico y una contraseña');
+      setErrorMessage(' Ingresa un correo electrónico y una contraseña');
+
       return;
     }
 
@@ -72,11 +81,25 @@ function Login() {
       navigate('/');
     } catch (error) {
       console.error('Error:', error);
+      setErrorMessage('La contraseña o el correo son incorrectos!!');
+
     }
   };
 
   return (
     <div className="flex h-screen">
+      <div className="fixed top-0 left-0 right-0 z-50 mt-4">
+        {errorMessage && (
+          <div className="mx-auto w-1/3 bg-gray-500 bg-opacity-50 text-white font-bold p-2 rounded-md shadow-md">
+            <div className="text-center mb-4">{errorMessage}</div> {/* Aumentar el espacio hacia arriba */}
+            <div className="flex justify-center mt-2"> {/* Contenedor para centrar el botón con más espacio arriba */}
+              <button onClick={handleCloseAlert} className="bg-porange px-4 py-1 rounded-lg text-white">
+                Cerrar
+              </button>
+            </div>
+          </div>
+        )}
+      </div>
       <section
         className="hidden lg:flex lg:w-1/2 items-stretch justify-center"
         style={{
@@ -100,9 +123,13 @@ function Login() {
               />
             </Link>
           </picture>
+
           <h1 className="text-3xl sm:text-2xl font-bold mb-4 mt-2 text-center hidden sm:block">
             Inicia sesión en La RatonerIA
           </h1>
+
+
+
           {/* <div className="w-h-full flex justify-center">
             <GoogleOAuthProvider clientId={clientID}>
               <GoogleLogin
