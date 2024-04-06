@@ -26,7 +26,6 @@ function Tabs({ localId }) {
     fetchData();
   }, [localId]);
 
-  console.log(reviewData);
   const tabsData = [
     {
       label: 'Precios',
@@ -71,9 +70,13 @@ function Tabs({ localId }) {
           );
         })}
       </div>
-      <div className="py-4 ml-4">
+      <div className='py-4 ml-4'>
         <p>{tabsData[activeTabIndex].content || 'Loading...'}</p>
+        {/* {tabsData[activeTabIndex].label === "Precios"
+        ? <Button>Agregar</Button>
+        : <Button>Comentar</Button>}   */}
       </div>
+      {/* <Modal/> */}
     </div>
   );
 }
