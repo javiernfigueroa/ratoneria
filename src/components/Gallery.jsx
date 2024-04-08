@@ -15,9 +15,7 @@ const Gallery = () => {
     const passesRatingFilter =
       filters.rating === '' ||
       parseFloat(card.rating) === parseFloat(filters.rating);
-    const passesPricesFilter =
-      filters.price === '' || card.price === filters.price;
-    return passesCategoryFilter && passesRatingFilter && passesPricesFilter;
+    return passesCategoryFilter && passesRatingFilter;
   });
 
   return (
@@ -45,17 +43,6 @@ const Gallery = () => {
           <option value="3">3 Estrellas</option>
           <option value="2">2 Estrellas</option>
           <option value="1">1 Estrellas</option>
-        </select>
-        <select
-          className="px-4 py-2 bg-pgrey border-gray-300 rounded-md shadow-sm focus:outline-none focus:border-white"
-          name="Precio"
-          value={filters.price}
-          onChange={handleFilterChange}
-        >
-          <option value="">Precio</option>
-          <option value="1">$</option>
-          <option value="2">$$</option>
-          <option value="3">$$$</option>
         </select>
       </div>
       <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-4 xl:grid-cols-4 gap-5 p-10">
