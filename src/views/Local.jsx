@@ -182,7 +182,14 @@ function Local() {
                     Debes ingresar un comentario
                   </span>
                 )}
-                <input type="submit" className=" bg-porange rounded-lg" />
+                {/* Verificar si el usuario está logueado antes de mostrar el botón de enviar */}
+                {localStorage.getItem('id') && localStorage.getItem('token') ? (
+                  <input type="submit" className=" bg-porange rounded-lg" />
+                ) : (
+                  <span className="text-white bg-red-500 p-2">
+                    Para enviar un comentario debes estar logueado.
+                  </span>
+                )}
               </form>
             </>
           ) : (
@@ -214,7 +221,14 @@ function Local() {
                     Debes ingresar un precio
                   </span>
                 )}
-                <input type="submit" className=" bg-porange rounded-lg" />
+                {/* Verificar si el usuario está logueado antes de mostrar el botón de enviar */}
+                {localStorage.getItem('id') && localStorage.getItem('token') ? (
+                  <input type="submit" className=" bg-porange rounded-lg" />
+                ) : (
+                  <span className="text-white bg-red-500 p-2">
+                    Para agregar un producto debes estar logueado.
+                  </span>
+                )}
               </form>
             </>
           )}
