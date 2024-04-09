@@ -1,15 +1,28 @@
 import Card from './Card';
-import { useContext } from 'react';
+import { useContext, useState } from 'react';
 import { AppContext } from '../context/AppContext';
 import useShopsPaginated from '../hooks/useShopsPaginated';
 
 const Gallery = () => {
   const { filters, updateFilters } = useContext(AppContext);
+  const [currentPage, setCurrentPage] = useState(1);
+  const { shops } = useShopsPaginated(10, currentPage);
+
   const handleFilterChange = (e) => {
     const { name, value } = e.target;
     updateFilters({ ...filters, [name]: value });
+    setCurrentPage(1);
   };
-  const { shops } = useShopsPaginated(10, 1);
+
+  const handleNextPage = () => {
+    setCurrentPage(currentPage + 1);
+  };
+
+  const handlePreviousPage = () => {
+    if (currentPage > 1) {
+      setCurrentPage(currentPage - 1);
+    }
+  };
 
   const filteredCards = shops.filter((shop) => {
     const passesCategoryFilter =
@@ -58,6 +71,22 @@ const Gallery = () => {
             category={shop.category_id}
           />
         ))}
+      </div>
+      <div className="flex justify-center mb-10">
+        <button
+          className="font-bold bg-porange text-[18px] rounded-sm p-2 mr-4"
+          onClick={handlePreviousPage}
+          disabled={currentPage === 1}
+        >
+          Anterior
+        </button>
+        <button
+          className="font-bold bg-porange text-[18px] rounded-sm p-2"
+          onClick={handleNextPage}
+          disabled={shops.length < 10}
+        >
+          Siguiente
+        </button>
       </div>
     </div>
   );
