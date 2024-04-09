@@ -6,7 +6,7 @@ import useShopsPaginated from '../hooks/useShopsPaginated';
 const Gallery = () => {
   const { filters, updateFilters } = useContext(AppContext);
   const [currentPage, setCurrentPage] = useState(1);
-  const { shops } = useShopsPaginated(10, currentPage);
+  const { shops } = useShopsPaginated(8, currentPage);
 
   const handleFilterChange = (e) => {
     const { name, value } = e.target;
