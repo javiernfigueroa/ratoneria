@@ -81,7 +81,7 @@ function Tabs({ localId, view }) {
         user_id: userId,
         shop_id: localId,
         product: data.product,
-        price_paid: parseInt(data.price_paid),
+        price_paid: parseFloat(data.price_paid),
       };
 
       console.log(producto);
@@ -112,7 +112,7 @@ function Tabs({ localId, view }) {
         consumedData && consumedData.length > 0
           ? consumedData.map((consumed, index) => (
               <li className="flex flex-col" key={index}>
-                {`${consumed.product.toUpperCase()}: ${consumed.price_paid}`}
+                {`${consumed.product.toUpperCase()}: $${parseFloat(consumed.price_paid).toFixed(0)}`}
               </li>
             ))
           : 'No se agregado precios',
