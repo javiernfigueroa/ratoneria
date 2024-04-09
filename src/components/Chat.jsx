@@ -75,7 +75,7 @@ export default function Chat({ local }) {
   };
 
   return (
-    <section className="text-zinc-100 bg-pdark-grey h-[90%]  pt-10 pr-1 pb-10 pl-1 rounded-md relative">
+    <section className="text-zinc-100  h-[90%]  pt-10 pr-1 pb-10 pl-1 rounded-md relative">
       <img
         src="https://i.ibb.co/rd2wT5d/Chat.png"
         alt="Chat Icon"
@@ -87,7 +87,7 @@ export default function Chat({ local }) {
         }}
       />
       <ul
-        className="list-none h-full overflow-y-scroll scroll-smooth p-2 w-[90%] mx-auto mt-5"
+        className="list-none h-full overflow-y-scroll p-2 w-[90%] mx-auto mt-5 scrollbar-thin scrollbar-thumb-[#151515] scrollbar-track-gray-200 hover:scrollbar-thumb-gray-600"
         id="chat-messages"
       >
         {allMessages.map((msg, index) => (
@@ -106,7 +106,7 @@ export default function Chat({ local }) {
         onSubmit={(e) => handleSendMessage(e)}
       >
         <input
-          className="border-10 rounded-md w-9/12 mr-5 p-0 text-black"
+          className="w-9/12 h-[30px] mr-5 p-2 text-black"
           type="text"
           name="message"
           id="input"

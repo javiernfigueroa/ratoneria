@@ -7,7 +7,6 @@ import Tabs from '../components/Tabs.jsx';
 import Star from '../components/Star.jsx';
 
 function Local() {
-
   const { cards } = useContext(AppContext);
   const { id } = useParams();
   const [local, setLocal] = useState(() => {
@@ -22,7 +21,7 @@ function Local() {
     setLocal(foundLocal);
     //localStorage.setItem('local', JSON.stringify(foundLocal));
   }, [id, cards]);
- 
+
   if (!local) {
     return <div>Loading...</div>;
   }
@@ -49,7 +48,7 @@ function Local() {
         </div>
         <div className="flex flex-col w-full md:w-1/2 mt-5 md:mt-0 ">
           <div
-            className="bg-pdark-grey h-60 md:h-96 p-1 rounded-md w-full md:w-5/6 ml-auto  flex flex-col"
+            className=" h-60 md:h-96 p-1 rounded-md w-full md:w-5/6 ml-auto  flex flex-col"
             id="chat"
           >
             <Chat local={local.shop_id.toString()} />
