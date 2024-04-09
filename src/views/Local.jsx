@@ -1,13 +1,13 @@
 import { useEffect, useState, useContext } from 'react';
 import { Link, useParams } from 'react-router-dom';
-import { AppContext } from '../context/AppContext';
+import useGetShops from '../hooks/useShops.js';
 import Chat from '../components/Chat.jsx';
 import SocialLinks from '../components/ui/Rrss.jsx';
 import Tabs from '../components/Tabs.jsx';
 import Star from '../components/Star.jsx';
 
 function Local() {
-  const { cards } = useContext(AppContext);
+  const { shops } = useGetShops();
   const { id } = useParams();
   const [local, setLocal] = useState(() => {
     const storedLocal = localStorage.getItem('local');
@@ -15,12 +15,12 @@ function Local() {
   });
 
   useEffect(() => {
-    const foundLocal = cards.find(
-      (card) => card.shop_id.toString() === id.toString(),
+    const foundLocal = shops.find(
+      (shop) => shop.shop_id.toString() === id.toString(),
     );
     setLocal(foundLocal);
     //localStorage.setItem('local', JSON.stringify(foundLocal));
-  }, [id, cards]);
+  }, [id, shops]);
 
   if (!local) {
     return <div>Loading...</div>;

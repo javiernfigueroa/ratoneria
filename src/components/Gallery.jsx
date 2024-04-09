@@ -1,20 +1,22 @@
 import Card from './Card';
 import { useContext } from 'react';
 import { AppContext } from '../context/AppContext';
+import useShopsPaginated from '../hooks/useShopsPaginated';
 
 const Gallery = () => {
-  const { cards, filters, updateFilters } = useContext(AppContext);
+  const { filters, updateFilters } = useContext(AppContext);
   const handleFilterChange = (e) => {
     const { name, value } = e.target;
     updateFilters({ ...filters, [name]: value });
   };
+  const { shops } = useShopsPaginated(10, 1);
 
-  const filteredCards = cards.filter((card) => {
+  const filteredCards = shops.filter((shop) => {
     const passesCategoryFilter =
-      filters.category === '' || card.category_name === filters.category;
+      filters.category === '' || shop.category_name === filters.category;
     const passesRatingFilter =
       filters.rating === '' ||
-      parseFloat(card.rating) === parseFloat(filters.rating);
+      parseFloat(shop.rating) === parseFloat(filters.rating);
     return passesCategoryFilter && passesRatingFilter;
   });
 
@@ -46,14 +48,14 @@ const Gallery = () => {
         </select>
       </div>
       <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-4 xl:grid-cols-4 gap-5 p-10">
-        {filteredCards.map((card) => (
+        {filteredCards.map((shop) => (
           <Card
-            key={card.shop_id}
-            id={card.shop_id}
-            title={card.shop_name}
-            img={card.image}
-            rating={card.rating}
-            category={card.category_id}
+            key={shop.shop_id}
+            id={shop.shop_id}
+            title={shop.shop_name}
+            img={shop.image}
+            rating={shop.rating}
+            category={shop.category_id}
           />
         ))}
       </div>

@@ -8,6 +8,7 @@ const Navbar = ({ handleLogin }) => {
   const logoRef = useRef(null);
   const navigation = [];
   const { isLoggedIn, logout } = useContext(AppContext);
+  const [contextReady, setContextReady] = useState(false);
 
   const name = localStorage.getItem('name');
   const avatar = localStorage.getItem('avatar');
@@ -19,12 +20,23 @@ const Navbar = ({ handleLogin }) => {
     }
   }, [handleLogin]);
 
+  useEffect(() => {
+    // Comprobar si isLoggedIn ya está establecido como true
+    if (isLoggedIn) {
+      setContextReady(true);
+    }
+  }, [isLoggedIn]);
+
   const handleLogout = () => {
     console.log('Datos de localStorage antes de limpiar:', localStorage);
     localStorage.clear();
     console.log('Datos de localStorage después de limpiar:', localStorage);
     logout();
   };
+
+  if (!contextReady) {
+    return null; // O podrías renderizar algo diferente aquí, como un mensaje de carga
+  }
 
   return (
     <nav
