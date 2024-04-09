@@ -1,17 +1,17 @@
 import Avatar from '../components/Avatar'; // Importa el componente Avatar
 import Card from '../components/Card'; // Importa el componente Card
 import { Link } from 'react-router-dom'; // Importa la función Link
-import { AppContext } from '../context/AppContext';
+import useGetShops from '../hooks/useShops';
 import { useContext } from 'react';
 
 function Profile() {
-  const { cards } = useContext(AppContext);
+  const { shops } = useGetShops();
   //console.log(cards);
 
   const loggedUser = localStorage.getItem('id');
   //console.log(loggedUser);
 
-  const userShops = cards.filter((card) => card.user_id === loggedUser);
+  const userShops = shops.filter((shop) => shop.user_id === loggedUser);
   //console.log(userShops);
 
   return (

@@ -1,6 +1,7 @@
 import { useForm } from 'react-hook-form';
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import { ENDPOINT } from '../config/constans';
 import axios from 'axios';
 
 //const isSubmit = (data) => console.log(data);
@@ -9,6 +10,7 @@ function Register() {
   const {
     register,
     handleSubmit,
+    reset,
     formState: { errors },
     watch,
   } = useForm();
@@ -24,7 +26,7 @@ function Register() {
   const onSubmit = async (data) => {
     console.log(data);
     try {
-      const response = await axios.post('http://localhost:3000/api/v1/users', {
+      const response = await axios.post(ENDPOINT.users, {
         first_name: data.nombre,
         last_name: data.apellido,
         email: data.mail,
@@ -36,6 +38,7 @@ function Register() {
       setRegistrationSuccess(true);
       setTimeout(() => {
         navigate('/login');
+        reset();
       }, 3000);
     } catch (error) {
       if (error.response && error.response.status === 409) {
@@ -257,30 +260,31 @@ function Register() {
             </div>
             <div className="flex flex-col items-center">
               <div>
-                <input
-                  type="submit"
-                  className="font-bold bg-porange text-[18px] rounded-sm p-2"
-                />
+                <button className="px-7 py-3.5 text-white bg-porange hover:bg-porange-600 rounded-lg shadow-md focus:shadow-none duration-100 ring-offset-2 ring-indigo-600 focus:ring-2">
+                  Registrarse
+                </button>
               </div>
             </div>
           </form>
           {registrationSuccess && (
-            <div className="fixed top-0 left-0 w-full h-full bg-black bg-opacity-50 flex justify-center items-center">
-              <div className="bg-white p-4 rounded shadow-md">
-                <p className="text-green-600 font-bold">¡Registro exitoso!</p>
+            <div className="fixed top-0 left-0 right-0 z-50 mt-4">
+              <div className="mx-auto w-1/3 bg-gray-500 bg-opacity-50 text-white font-bold p-2 rounded-md shadow-md">
+                <div className="text-center mb-4">¡Registro exitoso!</div>
               </div>
             </div>
           )}
           {showAlert && (
-            <div className="fixed top-0 left-0 w-full h-full bg-black bg-opacity-50 flex justify-center items-center">
-              <div className="bg-white p-4 rounded shadow-md">
-                <p className="text-red-600 font-bold">{registrationError}</p>
-                <button
-                  onClick={closeAlert}
-                  className="text-sm text-gray-500 mt-2 focus:outline-none"
-                >
-                  Cerrar
-                </button>
+            <div className="fixed top-0 left-0 right-0 z-50 mt-4">
+              <div className="mx-auto w-1/3 bg-gray-500 bg-opacity-50 text-white font-bold p-2 rounded-md shadow-md">
+                <div className="text-center mb-4">{registrationError}</div>
+                <div className="flex justify-center mt-2">
+                  <button
+                    onClick={closeAlert}
+                    className=" text-white bg-porange px-4 py-1 text-aling-center  rounded-lg "
+                  >
+                    Cerrar
+                  </button>
+                </div>
               </div>
             </div>
           )}

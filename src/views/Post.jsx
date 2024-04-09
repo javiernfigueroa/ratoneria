@@ -1,12 +1,13 @@
-import { useState, useContext } from 'react';
+import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import axios from 'axios';
-import { AppContext } from '../context/AppContext';
+import { ENDPOINT } from '../config/constans';
+import { useNavigate } from 'react-router-dom';
 
 function Post() {
   const [userId] = useState(localStorage.getItem('id'));
   const token = localStorage.getItem('token');
-  const { addShop } = useContext(AppContext);
+  const navigate = useNavigate();
 
   const {
     register,
@@ -14,6 +15,10 @@ function Post() {
     formState: { errors },
   } = useForm();
 
+  const [errorMessage, setErrorMessage] = useState('');
+  const handleCloseAlert = () => {
+    setErrorMessage('');
+  };
   const isSubmit = async (data) => {
     try {
       const formData = {
@@ -33,28 +38,43 @@ function Post() {
         },
       };
 
-      const response = await axios.post(
-        'http://localhost:3000/api/v1/shops',
-        formData,
-        config,
-      );
+      const response = await axios.post(ENDPOINT.shops, formData, config);
 
-      if (response.status === 200) {
+      if (response.status === 201) {
         // Manejar la respuesta exitosa
         console.log('Local creado exitosamente');
-        addShop(response.data);
-      } else {
-        // Manejar errores de respuesta
-        console.error('Error al crear el local');
+        navigate('/profile');
       }
     } catch (error) {
       // Manejar errores de red u otros errores
-      console.error('Error de red:', error);
+      if (error.status === 409) {
+        localStorage.clear();
+        navigate('/login');
+        
+      }else{
+        console.error('Error:', error);
+        setErrorMessage(error.response.data.message);
+      }
     }
   };
 
   return (
     <div className="flex flex-col w-[50%] text-white mx-auto">
+      <div className="fixed top-0 left-0 right-0 z-50 mt-4">
+        {errorMessage && (
+          <div className="mx-auto w-1/3 bg-gray-500 bg-opacity-50 text-white font-bold p-2 rounded-md shadow-md">
+            <div className="text-center mb-4">{errorMessage}</div>
+            <div className="flex justify-center mt-2">
+              <button
+                onClick={handleCloseAlert}
+                className="bg-porange px-4 py-1 rounded-lg text-white"
+              >
+                Cerrar
+              </button>
+            </div>
+          </div>
+        )}
+      </div>
       <div className="flex ">
         <form
           onSubmit={handleSubmit(isSubmit)}
@@ -72,7 +92,7 @@ function Post() {
             {...register('address', { required: true })}
             className="w-full  pr-12 pl-3 py-2 bg-transparent outline-none border focus:border-porange shadow-sm rounded-lg text-white"
           />
-          {errors.descripcion && <span>Campo obligatorio</span>}
+          {errors.address && <span>Campo obligatorio</span>}
 
           <label>Categoría</label>
           <select
@@ -83,7 +103,7 @@ function Post() {
             <option value={1}>Bar</option>
             <option value={2}>Restaurant</option>
           </select>
-          {errors.categoria && <span>Seleccione una categoría</span>}
+          {errors.category_id && <span>Seleccione una categoría</span>}
 
           <label>Foto: Ingresar URL de una foto</label>
           <input
@@ -91,7 +111,7 @@ function Post() {
             type="text"
             className="w-[50%] pr-12 pl-3 py-2 bg-transparent outline-none border focus:border-porange shadow-sm rounded-lg text-white"
           />
-          {errors.foto && <span>Debe subir una foto</span>}
+          {errors.image && <span>Debe subir una foto</span>}
 
           <label>Sitio Web : Opcional</label>
           <input

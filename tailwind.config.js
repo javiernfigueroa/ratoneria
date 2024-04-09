@@ -1,4 +1,5 @@
 /** @type {import('tailwindcss').Config} */
+import scrollbar from 'tailwind-scrollbar'
 export default {
   content: [
     "./index.html",
@@ -27,7 +28,9 @@ export default {
     },
     backgroundImage: {
       'bg-ratoneria': "url('public/bg_ratoneriac.jpg')",
-    }
+    },
   },
-  plugins: [],
+  plugins: [
+    scrollbar
+  ],
 }

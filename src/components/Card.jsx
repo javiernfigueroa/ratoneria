@@ -21,14 +21,14 @@ function Card({ id, img, title, rating, category }) {
           alt="imagen"
         />
       </div>
-      <div className="bg-pdark-grey h-1/2">
+      <div className="bg-pdark-grey h-auto">
         <p className="flex-auto text-center text-2xl text-white m-2">{title}</p>
         <p className="text-white text-center p-2">{category}</p>
         <div>
           <Star paramRating={rating}></Star>
         </div>
         <div>
-          <Tabs localId={id}></Tabs>
+          <Tabs localId={id} view={"gallery"}></Tabs>
         </div>
       </div>
     </div>

@@ -1,7 +1,8 @@
 import { useState, useEffect } from 'react';
+import { ENDPOINT } from '../config/constans.js';
 import io from 'socket.io-client';
 
-const socket = io('backchat-production-8699.up.railway.app', {
+const socket = io(ENDPOINT.chat, {
   transports: ['websocket'],
   auth: {
     token: localStorage.getItem('token'),
@@ -9,15 +10,17 @@ const socket = io('backchat-production-8699.up.railway.app', {
 });
 
 export default function Chat({ local }) {
-  const [nickname, setNickname] = useState('');
+  const [nickname, setNickname] = useState(localStorage.getItem('nickname'));
   const [message, setMessage] = useState('');
   const [allMessages, setAllMessages] = useState([]);
   const [isFlashing, setIsFlashing] = useState(false);
 
+
   useEffect(() => {
-    const random = Math.floor(Math.random() * 1000);
-    setNickname('Rata-Anonima-' + random);
-    socket.emit('join', { room: local, name: nickname });
+    if(!nickname){
+      const random = Math.floor(Math.random() * 1000);
+      setNickname('Rata-Anonima-' + random);
+    }
   }, [local]);
 
   useEffect(() => {
@@ -34,6 +37,7 @@ export default function Chat({ local }) {
     scrollToBottom();
   }, [allMessages]);
 
+  // Animacion Titulo CHAT
   useEffect(() => {
     const interval1 = setInterval(() => {
       setIsFlashing((prevIsFlashing) => !prevIsFlashing);
@@ -54,6 +58,7 @@ export default function Chat({ local }) {
     };
   }, []);
 
+  //PROCEDIMIENTO PARA HACER UN SCROLL AL FINAL
   const scrollToBottom = () => {
     const chatMessages = document.getElementById('chat-messages');
     chatMessages.scrollTop = chatMessages.scrollHeight;
@@ -70,12 +75,13 @@ export default function Chat({ local }) {
       body: message,
       from: nickname,
     };
+    socket.emit('join', { room: local, name: nickname });
     socket.emit('message', { room: local, msg: newMessage });
     setMessage('');
   };
 
   return (
-    <section className="text-zinc-100 bg-pdark-grey h-[90%]  pt-10 pr-1 pb-10 pl-1 rounded-md relative">
+    <section className="text-zinc-100  h-[90%]  pt-10 pr-1 pb-10 pl-1 rounded-md relative">
       <img
         src="https://i.ibb.co/rd2wT5d/Chat.png"
         alt="Chat Icon"
@@ -87,7 +93,7 @@ export default function Chat({ local }) {
         }}
       />
       <ul
-        className="list-none h-full overflow-y-scroll scroll-smooth p-2 w-[90%] mx-auto mt-5"
+        className="list-none h-full overflow-y-scroll p-2 w-[90%] mx-auto mt-5 scrollbar-thin scrollbar-thumb-[#151515] scrollbar-track-gray-200 hover:scrollbar-thumb-gray-600"
         id="chat-messages"
       >
         {allMessages.map((msg, index) => (
@@ -106,17 +112,23 @@ export default function Chat({ local }) {
         onSubmit={(e) => handleSendMessage(e)}
       >
         <input
-          className="border-10 rounded-md w-9/12 mr-5 p-0 text-black"
+          className="w-9/12 h-[30px] mr-5 p-2 text-black"
           type="text"
           name="message"
           id="input"
-          placeholder="Regístrate para enviar mensajes..."
+          placeholder={localStorage.getItem('id') ? 'Escribe un mensaje...' : "Regístrate para enviar mensajes..."}
           onChange={(e) => handleMessageChange(e)}
           value={message}
           autoComplete="off"
           maxLength={100}
         />
-        <button className="bg-porange rounded-md px-3 py-1">Enviar</button>
+        {/* Verificar si el usuario está logueado antes de mostrar el botón de enviar */}
+        {localStorage.getItem('id') && localStorage.getItem('token') ? (
+                  <button className="bg-porange rounded-md px-3 py-1">Enviar</button>
+                ) : (
+                 null
+                )}
+       
       </form>
     </section>
   );
