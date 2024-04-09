@@ -1,13 +1,13 @@
-import { useState, useContext } from 'react';
+import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import axios from 'axios';
-import { AppContext } from '../context/AppContext';
 import { ENDPOINT } from '../config/constans';
+import { useNavigate } from 'react-router-dom';
 
 function Post() {
   const [userId] = useState(localStorage.getItem('id'));
   const token = localStorage.getItem('token');
-  const { addShop } = useContext(AppContext);
+  const navigate = useNavigate();
 
   const {
     register,
@@ -36,13 +36,13 @@ function Post() {
 
       const response = await axios.post(ENDPOINT.shops, formData, config);
 
-      if (response.status === 200) {
+      if (response.status === 201) {
         // Manejar la respuesta exitosa
         console.log('Local creado exitosamente');
-        addShop(response.data);
+        navigate('/profile');
       } else {
         // Manejar errores de respuesta
-        console.error('Error al crear el local');
+        console.error(response);
       }
     } catch (error) {
       // Manejar errores de red u otros errores
