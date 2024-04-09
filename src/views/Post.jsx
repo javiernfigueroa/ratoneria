@@ -15,6 +15,10 @@ function Post() {
     formState: { errors },
   } = useForm();
 
+  const [errorMessage, setErrorMessage] = useState('');
+  const handleCloseAlert = () => {
+    setErrorMessage('');
+  };
   const isSubmit = async (data) => {
     try {
       const formData = {
@@ -43,16 +47,34 @@ function Post() {
       }
     } catch (error) {
       // Manejar errores de red u otros errores
-      alert(error.response.data.message);
       if (error.status === 409) {
         localStorage.clear();
         navigate('/login');
+        
+      }else{
+        console.error('Error:', error);
+        setErrorMessage(error.response.data.message);
       }
     }
   };
 
   return (
     <div className="flex flex-col w-[50%] text-white mx-auto">
+      <div className="fixed top-0 left-0 right-0 z-50 mt-4">
+        {errorMessage && (
+          <div className="mx-auto w-1/3 bg-gray-500 bg-opacity-50 text-white font-bold p-2 rounded-md shadow-md">
+            <div className="text-center mb-4">{errorMessage}</div>
+            <div className="flex justify-center mt-2">
+              <button
+                onClick={handleCloseAlert}
+                className="bg-porange px-4 py-1 rounded-lg text-white"
+              >
+                Cerrar
+              </button>
+            </div>
+          </div>
+        )}
+      </div>
       <div className="flex ">
         <form
           onSubmit={handleSubmit(isSubmit)}
