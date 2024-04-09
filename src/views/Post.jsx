@@ -2,6 +2,7 @@ import { useState, useContext } from 'react';
 import { useForm } from 'react-hook-form';
 import axios from 'axios';
 import { AppContext } from '../context/AppContext';
+import { ENDPOINT } from '../config/constans';
 
 function Post() {
   const [userId] = useState(localStorage.getItem('id'));
@@ -33,11 +34,7 @@ function Post() {
         },
       };
 
-      const response = await axios.post(
-        'http://localhost:3000/api/v1/shops',
-        formData,
-        config,
-      );
+      const response = await axios.post(ENDPOINT.shops, formData, config);
 
       if (response.status === 200) {
         // Manejar la respuesta exitosa

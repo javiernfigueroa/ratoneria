@@ -1,6 +1,7 @@
 import { useForm } from 'react-hook-form';
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import { ENDPOINT } from '../config/constans';
 import axios from 'axios';
 
 //const isSubmit = (data) => console.log(data);
@@ -24,7 +25,7 @@ function Register() {
   const onSubmit = async (data) => {
     console.log(data);
     try {
-      const response = await axios.post('http://localhost:3000/api/v1/users', {
+      const response = await axios.post(ENDPOINT.users, {
         first_name: data.nombre,
         last_name: data.apellido,
         email: data.mail,

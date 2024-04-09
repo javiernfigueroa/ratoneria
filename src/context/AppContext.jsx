@@ -1,4 +1,5 @@
 import { createContext, useState, useEffect } from 'react';
+import { ENDPOINT } from '../config/constans';
 import axios from 'axios';
 
 export const AppContext = createContext();
@@ -26,7 +27,7 @@ export const AppProvider = ({ children }) => {
 
   const getShops = async () => {
     try {
-      const response = await axios.get('http://localhost:3000/api/v1/shops');
+      const response = await axios.get(ENDPOINT.shops);
       const shops = response.data;
       setCards(shops);
       return shops;

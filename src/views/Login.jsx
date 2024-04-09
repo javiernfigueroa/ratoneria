@@ -4,6 +4,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { AppContext } from '../context/AppContext';
 //import { jwtDecode } from 'jwt-decode';
 import axios from 'axios';
+import { ENDPOINT } from '../config/constans';
 
 function Login() {
   const [isPasswordHidden, setPasswordHidden] = useState(true);
@@ -14,7 +15,6 @@ function Login() {
   });
 
   const [errorMessage, setErrorMessage] = useState('');
-
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -59,13 +59,10 @@ function Login() {
     }
 
     try {
-      const response = await axios.post(
-        'http://localhost:3000/api/v1/auth_user',
-        {
-          email: formData.username,
-          password: formData.password,
-        },
-      );
+      const response = await axios.post(ENDPOINT.auth_user, {
+        email: formData.username,
+        password: formData.password,
+      });
 
       const { token, user } = response.data;
       const name = user.last_name
@@ -82,7 +79,6 @@ function Login() {
     } catch (error) {
       console.error('Error:', error);
       setErrorMessage('La contraseña o el correo son incorrectos!!');
-
     }
   };
 
@@ -91,9 +87,15 @@ function Login() {
       <div className="fixed top-0 left-0 right-0 z-50 mt-4">
         {errorMessage && (
           <div className="mx-auto w-1/3 bg-gray-500 bg-opacity-50 text-white font-bold p-2 rounded-md shadow-md">
-            <div className="text-center mb-4">{errorMessage}</div> {/* Aumentar el espacio hacia arriba */}
-            <div className="flex justify-center mt-2"> {/* Contenedor para centrar el botón con más espacio arriba */}
-              <button onClick={handleCloseAlert} className="bg-porange px-4 py-1 rounded-lg text-white">
+            <div className="text-center mb-4">{errorMessage}</div>{' '}
+            {/* Aumentar el espacio hacia arriba */}
+            <div className="flex justify-center mt-2">
+              {' '}
+              {/* Contenedor para centrar el botón con más espacio arriba */}
+              <button
+                onClick={handleCloseAlert}
+                className="bg-porange px-4 py-1 rounded-lg text-white"
+              >
                 Cerrar
               </button>
             </div>
@@ -127,8 +129,6 @@ function Login() {
           <h1 className="text-3xl sm:text-2xl font-bold mb-4 mt-2 text-center hidden sm:block">
             Inicia sesión en La RatonerIA
           </h1>
-
-
 
           {/* <div className="w-h-full flex justify-center">
             <GoogleOAuthProvider clientId={clientID}>

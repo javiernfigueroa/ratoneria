@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import Modal from './Modal.jsx';
 import { useForm } from 'react-hook-form';
+import { ENDPOINT } from '../config/constans.js';
 import axios from 'axios';
 //coment/
 function Tabs({ localId, view }) {
@@ -14,22 +15,18 @@ function Tabs({ localId, view }) {
   const [reviewData, setReviewData] = useState();
   const [showModal, setShowModal] = useState(false);
   const [modalContent, setModalContent] = useState(null);
-  
+
   const handleOpenModal = (content) => {
     setModalContent(content);
     setShowModal(true);
   };
   const fetchData = async () => {
     try {
-      const response = await axios.get(
-        `http://localhost:3000/api/v1/consumed/${localId}`,
-      );
+      const response = await axios.get(`${ENDPOINT.consumed}/${localId}`);
       setConsumedData(response.data.consumed);
       //console.log(consumedData)
 
-      const resReview = await axios.get(
-        `http://localhost:3000/api/v1/reviews/${localId}`,
-      );
+      const resReview = await axios.get(`${ENDPOINT.reviews}/${localId}`);
       setReviewData(resReview.data.reviews);
     } catch (error) {
       console.error('Error fetching data:', error);
@@ -39,12 +36,11 @@ function Tabs({ localId, view }) {
     fetchData();
   }, [0]);
   const isSubmit = (data) => {
-    if(data.comment === '') {
+    if (data.comment === '') {
       sendPrice(data);
-    }else {
+    } else {
       sendComment(data);
     }
-    
   };
 
   const sendComment = async (data) => {
@@ -66,11 +62,7 @@ function Tabs({ localId, view }) {
       };
 
       // Realizar la solicitud POST al backend con el encabezado configurado
-      await axios.post(
-        'http://localhost:3000/api/v1/reviews',
-        comentario,
-        config,
-      );
+      await axios.post(ENDPOINT.reviews, comentario, config);
 
       // Opcional: Puedes manejar alguna acción después de enviar los comentarios, como cerrar el modal
       setShowModal(false);
@@ -102,15 +94,10 @@ function Tabs({ localId, view }) {
       };
 
       // Realizar la solicitud POST al backend con el encabezado configurado
-      await axios.post(
-        'http://localhost:3000/api/v1/consumed',
-        producto,
-        config,
-      );
+      await axios.post(ENDPOINT.consumed, producto, config);
 
       // Opcional: Puedes manejar alguna acción después de enviar los comentarios, como cerrar el modal
       setShowModal(false);
-      
     } catch (error) {
       console.error('Error al enviar comentario:', error);
       // Manejar el error según tus necesidades
@@ -163,16 +150,32 @@ function Tabs({ localId, view }) {
         })}
       </div>
       <div className="py-4 ml-4">
-      {view !== 'gallery' ?
-        <ul className="overflow-y-scroll h-40">
-          {tabsData[activeTabIndex].content || 'Loading...'}
-        </ul>: <ul className="overflow-y-scroll h-10">
-          {tabsData[activeTabIndex].content || 'Loading...'}
-        </ul>}
-        {view !== 'gallery' ?
-     tabsData[activeTabIndex].label === "Precios"
-        ? <button className="bg-porange p-2 rounded-sm mt-4" onClick={() => handleOpenModal('Precios')}>Agregar</button>
-        : <button className="bg-porange p-2 rounded-sm mt-4" onClick={() => handleOpenModal('Comentarios')}>Comentar</button>   : null} 
+        {view !== 'gallery' ? (
+          <ul className="overflow-y-scroll h-40">
+            {tabsData[activeTabIndex].content || 'Loading...'}
+          </ul>
+        ) : (
+          <ul className="overflow-y-scroll h-10">
+            {tabsData[activeTabIndex].content || 'Loading...'}
+          </ul>
+        )}
+        {view !== 'gallery' ? (
+          tabsData[activeTabIndex].label === 'Precios' ? (
+            <button
+              className="bg-porange p-2 rounded-sm mt-4"
+              onClick={() => handleOpenModal('Precios')}
+            >
+              Agregar
+            </button>
+          ) : (
+            <button
+              className="bg-porange p-2 rounded-sm mt-4"
+              onClick={() => handleOpenModal('Comentarios')}
+            >
+              Comentar
+            </button>
+          )
+        ) : null}
       </div>
       {showModal && (
         <Modal setShowModal={setShowModal}>
