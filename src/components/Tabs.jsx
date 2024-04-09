@@ -36,7 +36,7 @@ function Tabs({ localId, view }) {
     fetchData();
   }, [0]);
   const isSubmit = (data) => {
-    if (data.comment === '') {
+    if (data.comment === undefined) {
       sendPrice(data);
     } else {
       sendComment(data);
