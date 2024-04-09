@@ -1,30 +1,27 @@
 import { useState, useContext } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-//import { GoogleLogin, GoogleOAuthProvider } from '@react-oauth/google';
+import { useForm } from 'react-hook-form';
 import { AppContext } from '../context/AppContext';
-//import { jwtDecode } from 'jwt-decode';
 import axios from 'axios';
 import { ENDPOINT } from '../config/constans';
+//import { GoogleLogin, GoogleOAuthProvider } from '@react-oauth/google';
+//import { jwtDecode } from 'jwt-decode';
 
 function Login() {
-  const [isPasswordHidden, setPasswordHidden] = useState(true);
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm();
   const { login } = useContext(AppContext);
-  const [formData, setFormData] = useState({
-    username: '',
-    password: '',
-  });
+  const navigate = useNavigate();
 
+  const [isPasswordHidden, setPasswordHidden] = useState(true);
   const [errorMessage, setErrorMessage] = useState('');
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData({
-      ...formData,
-      [name]: value,
-    });
+  const handleCloseAlert = () => {
+    setErrorMessage('');
   };
-
-  const navigate = useNavigate();
   // const clientID =
   //   '959939122893-efhseqnnogj59ivjcicdkhah0k3r49dk.apps.googleusercontent.com';
 
@@ -44,24 +41,11 @@ function Login() {
   //   localStorage.setItem('userData', JSON.stringify(userData));
   // };
 
-  const handleCloseAlert = () => {
-    setErrorMessage('');
-  };
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-
-    if (!formData.username || !formData.password) {
-      console.error('Ingresa un correo electrónico y una contraseña');
-      setErrorMessage(' Ingresa un correo electrónico y una contraseña');
-
-      return;
-    }
-
+  const onSubmit = async (data) => {
     try {
       const response = await axios.post(ENDPOINT.auth_user, {
-        email: formData.username,
-        password: formData.password,
+        email: data.username,
+        password: data.password,
       });
 
       const { token, user } = response.data;
@@ -87,11 +71,8 @@ function Login() {
       <div className="fixed top-0 left-0 right-0 z-50 mt-4">
         {errorMessage && (
           <div className="mx-auto w-1/3 bg-gray-500 bg-opacity-50 text-white font-bold p-2 rounded-md shadow-md">
-            <div className="text-center mb-4">{errorMessage}</div>{' '}
-            {/* Aumentar el espacio hacia arriba */}
+            <div className="text-center mb-4">{errorMessage}</div>
             <div className="flex justify-center mt-2">
-              {' '}
-              {/* Contenedor para centrar el botón con más espacio arriba */}
               <button
                 onClick={handleCloseAlert}
                 className="bg-porange px-4 py-1 rounded-lg text-white"
@@ -155,31 +136,29 @@ function Login() {
               -------------
             </div>
           </div>
-          <form className="flex-col w-2/3 m-auto" onSubmit={handleSubmit}>
+          <form
+            className="flex-col w-2/3 m-auto"
+            onSubmit={handleSubmit(onSubmit)}
+          >
             <div className="relative max-w-xs">
               <input
                 type="text"
-                name="username"
-                value={formData.username}
-                onChange={handleChange}
+                {...register('username', {
+                  required: true,
+                  pattern: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
+                })}
                 placeholder="Ingresa tu email"
-                className="w-full pr-12 pl-3 py-2 text-gray-500 bg-transparent outline-none border focus:border-indigo-600 shadow-sm rounded-lg"
+                className={`w-full pr-12 pl-3 py-2 text-gray-500 bg-transparent outline-none border focus:border-indigo-600 shadow-sm rounded-lg ${
+                  errors.username ? 'border-red-500' : ''
+                }`}
               />
-              <svg
-                className="w-6 h-6 text-gray-400 absolute right-3 inset-y-0 my-auto"
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                strokeWidth={1.5}
-                stroke="currentColor"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M21.75 6.75v10.5a2.25 2.25 0 01-2.25 2.25h-15a2.25 2.25 0 01-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25m19.5 0v.243a2.25 2.25 0 01-1.07 1.916l-7.5 4.615a2.25 2.25 0 01-2.36 0L3.32 8.91a2.25 2.25 0 01-1.07-1.916V6.75"
-                />
-              </svg>
             </div>
+            {errors.username && errors.username.type === 'required' && (
+              <span className="text-red-500">Este campo es requerido</span>
+            )}
+            {errors.username && errors.username.type === 'pattern' && (
+              <span className="text-red-500">Formato no valido</span>
+            )}
             <div>
               <div className="relative max-w-xs mt-2">
                 <span
@@ -225,14 +204,17 @@ function Login() {
                 </span>
                 <input
                   type={isPasswordHidden ? 'password' : 'text'}
-                  name="password"
-                  value={formData.password}
-                  onChange={handleChange}
+                  {...register('password', { required: true })}
                   placeholder="Ingresa tu contraseña"
-                  className="w-full pr-12 pl-3 py-2 text-gray-500 bg-transparent outline-none border focus:border-indigo-600 shadow-sm rounded-lg"
+                  className={`w-full pr-12 pl-3 py-2 text-gray-500 bg-transparent outline-none border focus:border-indigo-600 shadow-sm rounded-lg ${
+                    errors.password ? 'border-red-500' : ''
+                  }`}
                 />
               </div>
             </div>
+            {errors.password && (
+              <span className="text-red-500">Este campo es requerido</span>
+            )}
             <div className="w-h-full flex justify-center mt-4">
               <button className="px-7 py-3.5 text-white bg-porange hover:bg-porange-600 rounded-lg shadow-md focus:shadow-none duration-100 ring-offset-2 ring-indigo-600 focus:ring-2">
                 Entrar
