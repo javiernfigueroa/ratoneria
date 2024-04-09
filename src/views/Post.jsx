@@ -40,13 +40,14 @@ function Post() {
         // Manejar la respuesta exitosa
         console.log('Local creado exitosamente');
         navigate('/profile');
-      } else {
-        // Manejar errores de respuesta
-        console.error(response);
       }
     } catch (error) {
       // Manejar errores de red u otros errores
-      console.error('Error de red:', error);
+      alert(error.response.data.message);
+      if (error.status === 409) {
+        localStorage.clear();
+        navigate('/login');
+      }
     }
   };
 
@@ -69,7 +70,7 @@ function Post() {
             {...register('address', { required: true })}
             className="w-full  pr-12 pl-3 py-2 bg-transparent outline-none border focus:border-porange shadow-sm rounded-lg text-white"
           />
-          {errors.descripcion && <span>Campo obligatorio</span>}
+          {errors.address && <span>Campo obligatorio</span>}
 
           <label>Categoría</label>
           <select
@@ -80,7 +81,7 @@ function Post() {
             <option value={1}>Bar</option>
             <option value={2}>Restaurant</option>
           </select>
-          {errors.categoria && <span>Seleccione una categoría</span>}
+          {errors.category_id && <span>Seleccione una categoría</span>}
 
           <label>Foto: Ingresar URL de una foto</label>
           <input
@@ -88,7 +89,7 @@ function Post() {
             type="text"
             className="w-[50%] pr-12 pl-3 py-2 bg-transparent outline-none border focus:border-porange shadow-sm rounded-lg text-white"
           />
-          {errors.foto && <span>Debe subir una foto</span>}
+          {errors.image && <span>Debe subir una foto</span>}
 
           <label>Sitio Web : Opcional</label>
           <input
