@@ -39,7 +39,7 @@ const Gallery = () => {
         >
           <option value="">Valoracion</option>
           <option value="5">5 Estrellas</option>
-          <option value="4">4Estrellas</option>
+          <option value="4">4 Estrellas</option>
           <option value="3">3 Estrellas</option>
           <option value="2">2 Estrellas</option>
           <option value="1">1 Estrellas</option>
