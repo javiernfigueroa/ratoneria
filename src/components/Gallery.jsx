@@ -83,7 +83,7 @@ const Gallery = () => {
         <button
           className="font-bold bg-porange text-[18px] rounded-sm p-2"
           onClick={handleNextPage}
-          disabled={shops.length < 10}
+          disabled={shops.length < 8}
         >
           Siguiente
         </button>
