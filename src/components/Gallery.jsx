@@ -33,6 +33,8 @@ const Gallery = () => {
     return passesCategoryFilter && passesRatingFilter;
   });
 
+  const isLastPage = shops.length < 8;
+
   return (
     <div className="flex flex-col items-center">
       <div className="flex w-[95%] text-white justify-center space-x-4 bg-porange p-2 rounded-md ">
@@ -73,20 +75,22 @@ const Gallery = () => {
         ))}
       </div>
       <div className="flex justify-center mb-10">
-        <button
-          className="font-bold bg-porange text-[18px] rounded-sm p-2 mr-4"
-          onClick={handlePreviousPage}
-          disabled={currentPage === 1}
-        >
-          Anterior
-        </button>
-        <button
-          className="font-bold bg-porange text-[18px] rounded-sm p-2"
-          onClick={handleNextPage}
-          disabled={shops.length < 8}
-        >
-          Siguiente
-        </button>
+        {currentPage > 1 && (
+          <button
+            className="font-bold bg-porange text-[18px] rounded-sm p-2 mr-4"
+            onClick={handlePreviousPage}
+          >
+            Anterior
+          </button>
+        )}
+        {!isLastPage && (
+          <button
+            className="font-bold bg-porange text-[18px] rounded-sm p-2"
+            onClick={handleNextPage}
+          >
+            Siguiente
+          </button>
+        )}
       </div>
     </div>
   );
