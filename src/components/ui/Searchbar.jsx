@@ -1,53 +1,26 @@
 import { useState } from 'react';
 import Button from './Button';
+import useAskQuestion from '../../hooks/useAskQuestions';
 
 function Searchbar() {
   const [inputValue, setInputValue] = useState('');
-  const [typingResponse, setTypingResponse] = useState('');
+  const { answer, loading, error, askQuestion } = useAskQuestion();
 
   const handleInputChange = (event) => {
     setInputValue(event.target.value);
   };
 
-  const typeResponse = () => {
-    const fullResponse =
-      'Gracias por tu pregunta, estoy aquí para ayudarte, pero aún no me conectan a la base de datos, por lo que solo puedo desearte ¡un feliz día! :D';
-    let currentLength = 0;
-    const interval = setInterval(() => {
-      setTypingResponse(fullResponse.substring(0, currentLength));
-      currentLength++;
-      if (currentLength > fullResponse.length) {
-        clearInterval(interval);
-      }
-    }, 30);
-  };
-
   const handleSubmit = async () => {
     if (inputValue.trim() !== '') {
-      typeResponse();
+      try {
+        await askQuestion(inputValue.trim()); // Llama a askQuestion con la pregunta
+      } catch (error) {
+        console.error('Error al enviar la pregunta:', error);
+      }
     } else {
       alert('Por favor, ingresa una pregunta antes de enviar.');
     }
   };
-  // try {
-  //   const response = await fetch("urlpeticion", {
-  //     method: "POST",
-  //     headers: {
-  //       "Content-Type": "application/json",
-  //     },
-  //     body: JSON.stringify({ question: inputValue }),
-  //   });
-
-  //   if (!response.ok) {
-  //     throw new Error("Error al enviar la solicitud");
-  //   }
-
-  //   const responseData = await response.json();
-  //   setResponse(responseData.answer);
-  // } catch (error) {
-  //   console.error("Error:", error);
-  //   setResponse("Hubo un error al procesar la solicitud");
-  // }
 
   return (
     <div className="w-[95%] mx-auto mt-12">
@@ -70,10 +43,8 @@ function Searchbar() {
         style={{ maxHeight: '200px', overflowY: 'auto' }}
       >
         <ul className="feed">
-          {/* Elemento para mostrar el texto de respuesta mientras se escribe */}
-          <li className="text-porange font-extrabold text-2xl p-2">
-            {typingResponse}
-          </li>
+          {/* Muestra la respuesta */}
+          <li className="text-porange font-extrabold text-2xl p-2">{answer}</li>
         </ul>
       </div>
     </div>
