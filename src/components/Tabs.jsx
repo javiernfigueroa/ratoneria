@@ -175,7 +175,7 @@ function Tabs({ localId, view }) {
         )}
       </div>
       {showForm && (
-        <div className="absolute w-[500px] h-[400px] z-10 bg-transparent top-1/4 left-1/3">
+        <div className="absolute w-full lg:w-[500px] h-[600px] md:w-[400px] h-[500px] sm:w-[290px] h-[300px] sm:h-auto z-10 bg-transparent top-1/4 left-1/2 transform -translate-x-1/2 ">
           <div className="h-full bg-pgrey rounded-xl">
             <div className="flex justify-between p-5">
               <h3 className="text-white">
