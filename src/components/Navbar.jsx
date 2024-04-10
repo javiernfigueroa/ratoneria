@@ -88,7 +88,7 @@ const Navbar = ({ handleLogin }) => {
               </Link>
               <Link
                 to="/"
-                className="text-white ml-4 rounded-md px-3 py-1 hover:bg-porange"
+                className="font-bold text-white ml-4 rounded-md px-3 py-1 hover:bg-porange"
                 onClick={handleLogout}
               >
                 Cerrar Sesión
@@ -100,13 +100,13 @@ const Navbar = ({ handleLogin }) => {
                 to="/login"
                 className="font-bold text-white text-[20px] rounded-sm p-2 hover:bg-porange"
               >
-                INICIAR SESION
+                Iniciar Sesión
               </Link>
               <Link
                 to="/register"
                 className="font-bold text-white text-[20px] rounded-sm p-2 hover:bg-porange"
               >
-                REGISTRARSE
+                Registrarse
               </Link>
             </>
           )}
@@ -163,13 +163,13 @@ const Navbar = ({ handleLogin }) => {
             <>
               <Link
                 to="/Profile"
-                className="text-white my-2 rounded-md px-3 py-1 hover:bg-porange"
+                className="font-bold text-white my-2 rounded-md px-3 py-1 hover:bg-porange"
               >
                 Perfil
               </Link>
               <Link
                 to="/"
-                className="text-white ml-4 rounded-md px-3 py-1 hover:bg-porange"
+                className="font-bold text-white ml-4 rounded-md px-3 py-1 hover:bg-porange"
                 onClick={handleLogout}
               >
                 Cerrar Sesión
@@ -181,13 +181,13 @@ const Navbar = ({ handleLogin }) => {
                 to="/login"
                 className="font-bold text-white text-[20px] rounded-sm p-2 hover:bg-porange"
               >
-                INICIAR SESION
+                Iniciar Sesión
               </Link>
               <Link
                 to="/register"
                 className="font-bold text-white text-[20px] rounded-sm p-2 hover:bg-porange"
               >
-                REGISTRARSE
+                Registrarse
               </Link>
             </>
           )}

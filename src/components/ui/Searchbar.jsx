@@ -50,10 +50,10 @@ function Searchbar() {
           onChange={handleInputChange}
           type="text"
           placeholder="Preguntame algo..."
-          className="w-full py-3 pl-12 pr-4 text-[#fff] text-3xl rounded-md outline-none bg-pgrey focus:bg-pgrey"
+          className="w-full py-3 pl-5 pr-4 text-[#fff] text-3xl rounded-md outline-none bg-pgrey focus:bg-pgrey"
         />
         {/* Botón para enviar la pregunta */}
-        <Button onClick={handleSubmit}>ENVIAR</Button>
+        <Button onClick={handleSubmit}>Enviar</Button>
       </div>
 
       {/* Contenedor para mostrar la respuesta */}

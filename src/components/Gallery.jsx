@@ -59,30 +59,36 @@ const Gallery = () => {
 
   return (
     <div className="flex flex-col items-center">
-      <div className="flex w-[95%] text-white justify-center space-x-4 bg-porange p-2 rounded-md ">
+      <div className="flex w-[95%] gap-4 text-white justify-center space-x-4 bg-porange p-2 rounded-md ">
+        <div className="flex flex-col items-center">
+        <label htmlFor="category" className='font-bold'>Categoría</label>
         <select
           className="px-4 py-2 bg-pgrey border-gray-300 rounded-md shadow-sm focus:outline-none focus:border-white"
           name="category"
           value={filters.category}
           onChange={handleFilterChange}
         >
-          <option value="">Categorias</option>
+          <option value="">Todas</option>
           <option value="bar">Bar</option>
           <option value="restaurant">Restaurant</option>
         </select>
+      </div>
+      <div className="flex flex-col items-center">
+        <label htmlFor="rating" className='font-bold'>Valoración</label>
         <select
           className="px-4 py-2 bg-pgrey border-gray-300 rounded-md shadow-sm focus:outline-none focus:border-white"
           name="rating"
           value={filters.rating}
           onChange={handleFilterChange}
         >
-          <option value="">Valoracion</option>
+          <option value="">Todas</option>
           <option value="5">5 Estrellas</option>
           <option value="4">4 Estrellas</option>
           <option value="3">3 Estrellas</option>
           <option value="2">2 Estrellas</option>
           <option value="1">1 Estrellas</option>
         </select>
+        </div>
       </div>
       <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-4 xl:grid-cols-4 gap-5 p-10">
         {filteredCards.map((shop) => (
