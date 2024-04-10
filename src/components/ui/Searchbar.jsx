@@ -25,8 +25,9 @@ function Searchbar() {
   const handleSubmit = async () => {
     if (inputValue.trim() !== '') {
       try {
-        await askQuestion(inputValue.trim()); // Llama a askQuestion con la pregunta
-        setInputValue(''); // Limpiar el input después de enviar la pregunta
+        await askQuestion(inputValue.trim());
+        console.log('esta es la pregunta en el front', inputValue.trim());
+        setInputValue('');
       } catch (error) {
         console.error('Error al enviar la pregunta:', error);
       }
