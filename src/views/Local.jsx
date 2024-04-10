@@ -41,7 +41,7 @@ function Local() {
               alt=""
             />
           </div>
-          <Star paramRating={local.rating} localId={id}></Star>
+          <Star paramRating={local.rating} localId={id} enableHover={true}></Star>
           <div className="mt-10 w-11/12 md:w-5/6 ">
             <Tabs localId={id} view="Shop" />
           </div>
