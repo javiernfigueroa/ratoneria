@@ -1,6 +1,5 @@
-// useAskQuestion.js
-
 import { useState } from 'react';
+
 import axios from 'axios';
 
 const useAskQuestion = () => {
@@ -11,7 +10,7 @@ const useAskQuestion = () => {
   const askQuestion = async (question) => {
     setLoading(true);
     try {
-      const response = await axios.get(`http://localhost:3000/api/v1/ask?question=${encodeURIComponent(question)}`);
+      const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/ask?question=${encodeURIComponent(question)}`);
       setAnswer(response.data.answer);
     } catch (error) {
       setError(error.message);
