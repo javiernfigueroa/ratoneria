@@ -24,13 +24,13 @@ export default function Chat({ local }) {
   }, [local]);
 
   useEffect(() => {
-    socket.on('message', ({ body, from }) => {
-      const msg = { body, from };
-      setAllMessages((previousMessages) => [...previousMessages, msg]);
-    });
-    return () => {
-      socket.off('message');
-    };
+      socket.emit('leave', { room: local, name: nickname });
+      socket.emit('join', { room: local, name: nickname });
+      socket.on('message', ({ body, from }) => {
+        const msg = { body, from };
+        setAllMessages((previousMessages) => [...previousMessages, msg]);
+      });
+    return () => { socket.off('message'); };
   }, []);
 
   useEffect(() => {
@@ -75,7 +75,6 @@ export default function Chat({ local }) {
       body: message,
       from: nickname,
     };
-    socket.emit('join', { room: local, name: nickname });
     socket.emit('message', { room: local, msg: newMessage });
     setMessage('');
   };
