@@ -1,4 +1,4 @@
-import { useEffect, useState, useContext } from 'react';
+import { useEffect, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import useGetShops from '../hooks/useShops.js';
 import Chat from '../components/Chat.jsx';
@@ -41,7 +41,7 @@ function Local() {
               alt=""
             />
           </div>
-          <Star paramRating={local.rating}></Star>
+          <Star paramRating={local.rating} localId={id} enableHover={true}></Star>
           <div className="mt-10 w-11/12 md:w-5/6 ">
             <Tabs localId={id} view="Shop" />
           </div>

@@ -5,6 +5,13 @@ import Star from './Star';
 function Card({ id, img, title, rating, category }) {
   const navigate = useNavigate();
 
+  const handleMouseDown = (event) => {
+    if (event.button === 1) { // Verifica si se ha hecho clic con el botón de la rueda (valor de botón = 1)
+      event.preventDefault();
+      window.open(`/local/${id}`, '_blank');
+    }
+  };
+
   const handleClick = () => {
     navigate(`/local/${id}`, id);
   };
@@ -13,6 +20,7 @@ function Card({ id, img, title, rating, category }) {
     <div className="flex flex-col h-[600px]">
       <div
         className="flex flex-col w-full h-1/2 rounded gap-5 items-center self-center cursor-pointer"
+        onMouseDown={handleMouseDown}
         onClick={handleClick}
       >
         <img
@@ -34,4 +42,5 @@ function Card({ id, img, title, rating, category }) {
     </div>
   );
 }
+
 export default Card;

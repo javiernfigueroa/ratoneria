@@ -70,7 +70,7 @@ function Login() {
     <div className="flex h-screen">
       <div className="fixed top-0 left-0 right-0 z-50 mt-4">
         {errorMessage && (
-          <div className="mx-auto w-1/3 bg-gray-500 bg-opacity-50 text-white font-bold p-2 rounded-md shadow-md">
+          <div className="mx-auto w-1/3 bg-gray-500 bg-opacity-70 text-white font-bold p-2 rounded-md shadow-md">
             <div className="text-center mb-4">{errorMessage}</div>
             <div className="flex justify-center mt-2">
               <button
@@ -137,7 +137,7 @@ function Login() {
             </div>
           </div>
           <form
-            className="flex-col w-2/3 m-auto"
+            className="flex-col w-3/3 m-auto"
             onSubmit={handleSubmit(onSubmit)}
           >
             <div className="relative max-w-xs">

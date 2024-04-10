@@ -2,7 +2,7 @@
 function Button({ children, onClick }) {
   return (
     <button
-      className="font-bold bg-porange text-[18px] rounded-sm p-2"
+      className="font-bold bg-porange text-[18px] text-white rounded-sm p-2"
       onClick={onClick}
     >
       {children}
