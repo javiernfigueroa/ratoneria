@@ -160,13 +160,21 @@ const Navbar = ({ handleLogin }) => {
             </a>
           ))}
           {isLoggedIn ? (
-            <Link
-              to="/"
-              className="text-white ml-4 rounded-md px-3 py-1 hover:bg-porange"
-              onClick={handleLogout}
-            >
-              Cerrar Sesión
-            </Link>
+            <>
+              <Link
+                to="/Profile"
+                className="text-white my-2 rounded-md px-3 py-1 hover:bg-porange"
+              >
+                Perfil
+              </Link>
+              <Link
+                to="/"
+                className="text-white ml-4 rounded-md px-3 py-1 hover:bg-porange"
+                onClick={handleLogout}
+              >
+                Cerrar Sesión
+              </Link>
+            </>
           ) : (
             <>
               <Link
