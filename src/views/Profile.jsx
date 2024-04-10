@@ -2,7 +2,6 @@ import Avatar from '../components/Avatar'; // Importa el componente Avatar
 import Card from '../components/Card'; // Importa el componente Card
 import { Link } from 'react-router-dom'; // Importa la función Link
 import useGetShops from '../hooks/useShops';
-import { useContext } from 'react';
 
 function Profile() {
   const { shops } = useGetShops();

@@ -1,4 +1,4 @@
-export const URLBASE = 'http://localhost:3000/api/v1';
+export const URLBASE = import.meta.env.VITE_BACKEND_URL ||'http://localhost:3000/api/v1';
 
 export const ENDPOINT = {
   chat: 'backchat-production-8699.up.railway.app',
