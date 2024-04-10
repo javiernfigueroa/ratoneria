@@ -1,30 +1,54 @@
+import { useContext, useState, useEffect } from 'react';
 import Card from './Card';
-import { useContext, useState } from 'react';
 import { AppContext } from '../context/AppContext';
-import useShopsPaginated from '../hooks/useShopsPaginated';
+import useGetShops from '../hooks/useShops';
 
 const Gallery = () => {
   const { filters, updateFilters } = useContext(AppContext);
+  const { shops } = useGetShops();
+  const [visibleCards, setVisibleCards] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
-  const { shops } = useShopsPaginated(8, currentPage);
+
+  useEffect(() => {
+    const initialCards = shops.slice(0, 8);
+    setVisibleCards(initialCards);
+    setCurrentPage(1);
+  }, [shops]);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      if (
+        window.innerHeight + document.documentElement.scrollTop ===
+        document.documentElement.offsetHeight
+      ) {
+        loadMoreCards();
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, [visibleCards]);
+
+  const loadMoreCards = () => {
+    const nextPage = currentPage + 1;
+    const remainingCards = shops.slice(nextPage * 8, (nextPage + 1) * 8);
+    setVisibleCards((prevCards) => [...prevCards, ...remainingCards]);
+    setCurrentPage(nextPage);
+  };
 
   const handleFilterChange = (e) => {
     const { name, value } = e.target;
     updateFilters({ ...filters, [name]: value });
-    setCurrentPage(1);
   };
 
-  const handleNextPage = () => {
-    setCurrentPage(currentPage + 1);
+  const scrollToTop = () => {
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth',
+    });
   };
 
-  const handlePreviousPage = () => {
-    if (currentPage > 1) {
-      setCurrentPage(currentPage - 1);
-    }
-  };
-
-  const filteredCards = shops.filter((shop) => {
+  const filteredCards = visibleCards.filter((shop) => {
     const passesCategoryFilter =
       filters.category === '' || shop.category_name === filters.category;
     const passesRatingFilter =
@@ -32,8 +56,6 @@ const Gallery = () => {
       parseFloat(shop.rating) === parseFloat(filters.rating);
     return passesCategoryFilter && passesRatingFilter;
   });
-
-  const isLastPage = shops.length < 8;
 
   return (
     <div className="flex flex-col items-center">
@@ -74,24 +96,12 @@ const Gallery = () => {
           />
         ))}
       </div>
-      <div className="flex justify-center mb-10">
-        {currentPage > 1 && (
-          <button
-            className="font-bold bg-porange text-[18px] rounded-sm p-2 mr-4"
-            onClick={handlePreviousPage}
-          >
-            Anterior
-          </button>
-        )}
-        {!isLastPage && (
-          <button
-            className="font-bold bg-porange text-[18px] rounded-sm p-2"
-            onClick={handleNextPage}
-          >
-            Siguiente
-          </button>
-        )}
-      </div>
+      <button
+        className="fixed bottom-5 right-5 bg-porange hover:bg-pgrey text-white font-bold py-2 px-4 rounded"
+        onClick={scrollToTop}
+      >
+        Ir arriba
+      </button>
     </div>
   );
 };
