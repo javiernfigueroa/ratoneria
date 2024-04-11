@@ -122,10 +122,10 @@ function Post() {
           </div>
         )}
       </div>
-      <div className="flex ">
+      <div className="flex flex-col md:flex-row md:justify-center ">
         <form
           onSubmit={handleSubmit(isSubmit)}
-          className="flex flex-col w-2/3 m-auto gap-5 mt-10 self-center"
+          className="flex flex-col w-full md:w-2/3 max-w-lg mx-auto gap-5 mt-10"
         >
           <label>Nombre del Local</label>
           <input
