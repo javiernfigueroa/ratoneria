@@ -6,35 +6,6 @@ import useGetShops from '../hooks/useShops';
 const Gallery = () => {
   const { filters, updateFilters } = useContext(AppContext);
   const { shops } = useGetShops();
-  const [visibleCards, setVisibleCards] = useState([]);
-  const [currentPage, setCurrentPage] = useState(1);
-
-  useEffect(() => {
-    const initialCards = shops.slice(0, 8);
-    setVisibleCards(shops);
-    setCurrentPage(1);
-  }, [shops]);
-
-  useEffect(() => {
-    const handleScroll = () => {
-      if (
-        window.innerHeight + document.documentElement.scrollTop ===
-        document.documentElement.offsetHeight
-      ) {
-        loadMoreCards();
-      }
-    };
-
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, [visibleCards]);
-
-  const loadMoreCards = () => {
-    const nextPage = currentPage + 1;
-    const remainingCards = shops.slice(nextPage * 8, (nextPage + 1) * 8);
-    setVisibleCards((prevCards) => [...prevCards, ...remainingCards]);
-    setCurrentPage(nextPage);
-  };
 
   const handleFilterChange = (e) => {
     const { name, value } = e.target;
@@ -48,7 +19,7 @@ const Gallery = () => {
     });
   };
 
-  const filteredCards = visibleCards.filter((shop) => {
+  const filteredCards = shops.filter((shop) => {
     const passesCategoryFilter =
       filters.category === '' || shop.category_name === filters.category;
     const passesRatingFilter =
