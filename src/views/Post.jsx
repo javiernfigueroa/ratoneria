@@ -122,15 +122,16 @@ function Post() {
           </div>
         )}
       </div>
-      <div className="flex ">
+      <div className="flex flex-col md:flex-row mb-6 md:justify-center ">
         <form
           onSubmit={handleSubmit(isSubmit)}
-          className="flex flex-col w-2/3 m-auto gap-5 mt-10 self-center"
+          className="flex flex-col w-full md:w-2/3 max-w-lg mx-auto gap-5 mt-10"
         >
           <label>Nombre del Local</label>
           <input
             {...register('name', { required: true })}
             className="w-full pr-12 pl-3 py-2 bg-transparent outline-none border focus:border-porange shadow-sm rounded-lg text-white"
+            placeholder="Ejemplo Bar nacional"
           />
           {errors.name && <span>Campo obligatorio</span>}
 
@@ -138,13 +139,14 @@ function Post() {
           <input
             {...register('address', { required: true })}
             className="w-full  pr-12 pl-3 py-2 bg-transparent outline-none border focus:border-porange shadow-sm rounded-lg text-white"
+            placeholder="Ejemplo Calle 1 #123"
           />
           {errors.address && <span>Campo obligatorio</span>}
 
           <label>Categoría</label>
           <select
             {...register('category_id', { required: true })}
-            className="w-[50%] pr-12 pl-3 py-2 bg-black outline-none border focus:border-porange shadow-sm rounded-lg text-white"
+            className="w-full pr-12 pl-3 py-2 bg-black outline-none border focus:border-porange shadow-sm rounded-lg text-white"
           >
             <option value="">Seleccione una categoría</option>
             <option value={1}>Bar</option>
@@ -157,39 +159,37 @@ function Post() {
             type="file"
             accept="image/png, image/jpeg, image/jpg"
             onChange={handleImageChange}
-            className="w-[50%] pr-12 pl-3 py-2 bg-transparent outline-none border focus:border-porange shadow-sm rounded-lg text-white"
+            className="w-full pr-12 pl-3 py-2 bg-transparent outline-none border focus:border-porange shadow-sm rounded-lg text-white"
           />
-
           {isLoading && <span>Cargando imagen...</span>}
-
           {imagePreview && (
             <img src={imagePreview} alt="Preview" className="mt-2 w-[100px]" />
           )}
-
           <label>Sitio Web : Opcional</label>
           <input
             {...register('web', { required: false })}
             type="text"
-            className="w-[50%] pr-12 pl-3 py-2 bg-transparent outline-none border focus:border-porange shadow-sm rounded-lg text-white"
+            className="w-full pr-12 pl-3 py-2 bg-transparent outline-none border focus:border-porange shadow-sm rounded-lg text-white"
+            placeholder='Ejemplo: "https://www.facebook.com/"'
           />
-
           <label>facebook: Opcional</label>
           <input
             {...register('facebook', { required: false })}
             type="text"
-            className="w-[50%] pr-12 pl-3 py-2 bg-transparent outline-none border focus:border-porange shadow-sm rounded-lg text-white"
+            className="w-full pr-12 pl-3 py-2 bg-transparent outline-none border focus:border-porange shadow-sm rounded-lg text-white"
+            placeholder='Ejemplo: "La ratoneria'
           />
 
           <label>instagram: opcional</label>
           <input
             {...register('instagram', { required: false })}
             type="text"
-            className="w-[50%] pr-12 pl-3 py-2 bg-transparent outline-none border focus:border-porange shadow-sm rounded-lg text-white"
+            className="w-full pr-12 pl-3 py-2 bg-transparent outline-none border focus:border-porange shadow-sm rounded-lg text-white"
+            placeholder='Ejemplo: "La ratoneriaIG'
           />
-
           <input
             type="submit"
-            className="font-bold bg-porange text-[18px] rounded-sm p-2"
+            className="font-bold bg-porange mx-auto  w-[30%] text-[18px] rounded-sm p-2"
           />
         </form>
       </div>
