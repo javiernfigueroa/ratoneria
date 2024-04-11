@@ -26,6 +26,12 @@ const Navbar = ({ handleLogin }) => {
     logout();
   };
 
+  const handleLogoClick = () => {
+    // Redirigir al usuario al home ("/")
+    history.push("/");
+  };
+
+
   return (
     <nav
       className="bg-pdark-grey font-sans text-xl py-2 px-4"
@@ -38,6 +44,7 @@ const Navbar = ({ handleLogin }) => {
             className="flex items-center"
             onMouseEnter={() => setIsHovered(true)}
             onMouseLeave={() => setIsHovered(false)}
+            onClick={handleLogoClick}
           >
             <img
               ref={logoRef}
