@@ -6,8 +6,51 @@ import { useNavigate } from 'react-router-dom';
 
 function Post() {
   const [userId] = useState(localStorage.getItem('id'));
+  const [profileImage, setProfileImage] = useState('');
+  const [imagePreview, setImagePreview] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
   const token = localStorage.getItem('token');
   const navigate = useNavigate();
+
+  const handleImageChange = (e) => {
+    setProfileImage(e.target.files[0]);
+    setImagePreview(URL.createObjectURL(e.target.files[0]));
+  };
+
+  const uploadImage = async () => {
+    setIsLoading(true);
+
+    try {
+      let imageUrl = '';
+      if (
+        profileImage &&
+        (profileImage.type === 'image/png' ||
+          profileImage.type === 'image/jpg' ||
+          profileImage.type === 'image/jpeg')
+      ) {
+        const image = new FormData();
+        image.append('file', profileImage);
+        image.append('cloud_name', 'drh8hh5qb');
+        image.append('upload_preset', 'oznokdwk');
+
+        const response = await fetch(
+          'https://api.cloudinary.com/v1_1/drh8hh5qb/image/upload',
+          {
+            method: 'post',
+            body: image,
+          },
+        );
+        const imgData = await response.json();
+        imageUrl = imgData.url.toString();
+        setImagePreview(null);
+      }
+      return imageUrl;
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   const {
     register,
@@ -19,13 +62,18 @@ function Post() {
   const handleCloseAlert = () => {
     setErrorMessage('');
   };
+
   const isSubmit = async (data) => {
     try {
+      setIsLoading(true);
+
+      const imageUrl = await uploadImage();
+
       const formData = {
         name: data.name,
         address: data.address,
         category_id: parseInt(data.category_id),
-        image: data.image,
+        image: imageUrl,
         user_id: userId,
       };
 
@@ -41,20 +89,19 @@ function Post() {
       const response = await axios.post(ENDPOINT.shops, formData, config);
 
       if (response.status === 201) {
-        // Manejar la respuesta exitosa
         console.log('Local creado exitosamente');
         navigate('/profile');
       }
     } catch (error) {
-      // Manejar errores de red u otros errores
       if (error.status === 409) {
         localStorage.clear();
         navigate('/login');
-        
-      }else{
+      } else {
         console.error('Error:', error);
         setErrorMessage(error.response.data.message);
       }
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -105,13 +152,19 @@ function Post() {
           </select>
           {errors.category_id && <span>Seleccione una categoría</span>}
 
-          <label>Foto: Ingresar URL de una foto</label>
+          <label>Foto: Subir una foto</label>
           <input
-            {...register('image', { required: true })}
-            type="text"
+            type="file"
+            accept="image/png, image/jpeg, image/jpg"
+            onChange={handleImageChange}
             className="w-[50%] pr-12 pl-3 py-2 bg-transparent outline-none border focus:border-porange shadow-sm rounded-lg text-white"
           />
-          {errors.image && <span>Debe subir una foto</span>}
+
+          {isLoading && <span>Cargando imagen...</span>}
+
+          {imagePreview && (
+            <img src={imagePreview} alt="Preview" className="mt-2 w-[100px]" />
+          )}
 
           <label>Sitio Web : Opcional</label>
           <input
@@ -133,12 +186,11 @@ function Post() {
             type="text"
             className="w-[50%] pr-12 pl-3 py-2 bg-transparent outline-none border focus:border-porange shadow-sm rounded-lg text-white"
           />
-          <div>
-            <input
-              type="submit"
-              className="font-bold bg-porange text-[18px] rounded-sm p-2"
-            />
-          </div>
+
+          <input
+            type="submit"
+            className="font-bold bg-porange text-[18px] rounded-sm p-2"
+          />
         </form>
       </div>
     </div>
