@@ -7,11 +7,11 @@ function Avatar() {
   const avatar = localStorage.getItem('avatar');
   return (
     <div className="flex items-center justify-center mt-5 mb-5">
-      <div className="flex gap-5">
-        <img src={avatar} className="flex-none w-12 h-12 rounded-full" />
+      <div className="flex items-center gap-5">
+        <img src={avatar} className="w-12 h-12 rounded-full" />
         <div>
-          <span className="block text-xl text-white font-semibold">{name}</span>
-          <span className="block text-xl text-pgray">${email}</span>
+          <span className="text-xl text-white font-semibold">{name}</span>
+          <span className="text-xl text-pgray">${email}</span>
         </div>
         <div>
           <Link to="/Post">

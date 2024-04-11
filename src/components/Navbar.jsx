@@ -82,7 +82,7 @@ const Navbar = ({ handleLogin }) => {
                   src={avatar}
                   className="flex-none w-12 h-12 rounded-full"
                 />
-                <span className="block text-xl text-white font-semibold p-2">
+                <span className="block  text-xl text-white font-bold p-2 ml-1 rounded-md px-3 py-1 hover:bg-porange">
                   {name}
                 </span>
               </Link>
