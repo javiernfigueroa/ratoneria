@@ -27,14 +27,14 @@ function Local() {
   }
   return (
     <div className="lg:w-[1024px] xl:w-[1280px] w-full mx-auto relative mb-10 mt-10">
-      <div className="bg-pdark-grey inline-block w-full h-full align-top mx-auto px-10 py-10">
-        <h1 className="text-3xl md:text-2xl font-bold mb-4 mt-2 text-center text-slate-100">
+      <div className="flex items-center justify-center bg-pdark-grey  w-full h-[100px] align-top mx-auto px-10 py-10">
+        <h1 className="text-slate-100 text-3xl sm:text-2xl md:text-2xl xl:text-5xl lg:text-5xl font-bold mb-2 mt-2">
           {local.shop_name}
         </h1>
       </div>
       <div className="flex flex-col md:flex-row justify-center md:justify-evenly  mt-10">
         <div className="w-full md:w-1/2  flex flex-col items-center">
-          <div className="h-60 md:h-96 w-60 md:w-96">
+          <div className="h-60 md:h-96 w-60 md:w-96 mb-5">
             <img
               className="mx-auto h-full rounded-md"
               src={local.image}
