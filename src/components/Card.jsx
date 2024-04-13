@@ -34,7 +34,8 @@ function Card({ id, img, title, rating, category }) {
         <div>
           <Star paramRating={rating}></Star>
         </div>
-        <div>
+        <div className='scrollbar-thin scrollbar-thumb-[#151515] scrollbar-track-gray-200 hover:scrollbar-thumb-gray-600'>
+
           <Tabs localId={id} view={'gallery'}></Tabs>
         </div>
       </div>
