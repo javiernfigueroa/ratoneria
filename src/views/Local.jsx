@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Link, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import useGetShops from '../hooks/useShops.js';
 import Chat from '../components/Chat.jsx';
 import SocialLinks from '../components/ui/Rrss.jsx';
@@ -42,7 +42,7 @@ function Local() {
               alt=""
             />
           </div>
-          <Star paramRating={local.rating} localId={id} enableHover={true}></Star>
+          <Star paramRating={local.rating} paramTotalRating={local.total_rating} localId={id} enableHover={true}></Star>
           <div className="mt-10 w-11/12 md:w-5/6 ">
             <Tabs localId={id} view="Shop" />
           </div>
