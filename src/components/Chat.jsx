@@ -117,7 +117,8 @@ export default function Chat({ local }) {
       <form
         className="w-[90%] mx-auto mt-10"
         onSubmit={(e) => handleSendMessage(e)}
-      >
+      >{localStorage.getItem('id') && localStorage.getItem('token') ? (
+        <>
         <input
           className="w-9/12 h-[30px] mr-5 p-2 text-black"
           type="text"
@@ -130,10 +131,10 @@ export default function Chat({ local }) {
           maxLength={100}
         />
         {/* Verificar si el usuario está logueado antes de mostrar el botón de enviar */}
-        {localStorage.getItem('id') && localStorage.getItem('token') ? (
-                  <button className="bg-porange rounded-md px-3 py-1">Enviar</button>
+        
+                  <button className="bg-porange rounded-md px-3 py-1">Enviar</button></>
                 ) : (
-                 null
+                 <span className="text-red-600 font-bold text-lg">Para chatear debes estar logueado</span>
                 )}
        
       </form>
