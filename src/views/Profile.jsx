@@ -24,10 +24,10 @@ function Profile() {
           <div></div>
         </Avatar>
       </div>
-      <div className="flex flex-col items-center">
+      <div className="flex flex-col mx-auto relative mb-10 mt-10 max-w-[1280px]">
         {' '}
         {/* Contenedor principal de las cards */}
-        <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-4 xl:grid-cols-4 gap-5 p-10">
+        <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-4 xl:grid-cols- gap-5 p-10">
           {userShops.map((shop) => (
             <Link to={`/local/${shop.shop_id}`} key={shop.shop_id}>
               {/* Enlace a la tienda */}

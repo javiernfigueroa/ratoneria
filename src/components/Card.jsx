@@ -11,7 +11,7 @@ function Card({ id, img, title, rating, category }) {
   };
 
   return (
-    <div className="flex flex-col h-[600px]">
+    <div className="flex flex-col h-[500px]">
       <div
         className="flex flex-col w-full h-1/2 rounded gap-5 items-center self-center cursor-pointer"
         onMouseDown={handleMouseDown}
@@ -22,20 +22,19 @@ function Card({ id, img, title, rating, category }) {
           onMouseDown={handleMouseDown}
         >
           <img
-            className="w-full h-full flex rounded shadow-2xl"
+            className="w-full h-full flex rounded"
             src={img}
             alt="imagen de un local"
           />
         </Link>
       </div>
-      <div className="bg-pdark-grey h-auto">
-        <p className="flex-auto text-center text-2xl text-white m-2">{title}</p>
+      <div className="bg-pdark-grey h-[250px]">
+        <p className="flex-auto text-center text-2xl text-white m-2 h-1/5">{title}</p>
         <p className="text-white text-center p-2">{category}</p>
         <div>
           <Star paramRating={rating}></Star>
         </div>
-        <div className='scrollbar-thin scrollbar-thumb-[#151515] scrollbar-track-gray-200 hover:scrollbar-thumb-gray-600'>
-
+        <div>
           <Tabs localId={id} view={'gallery'}></Tabs>
         </div>
       </div>
