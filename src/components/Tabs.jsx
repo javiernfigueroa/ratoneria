@@ -149,11 +149,11 @@ function Tabs({ localId, view }) {
       </div>
       <div className="py-4 ml-4">
         {view !== 'gallery' ? (
-          <ul className="overflow-y-scroll h-40">
+          <ul className="overflow-y-scroll h-40 scrollbar-thin scrollbar-thumb-[#151515] scrollbar-track-gray-200 hover:scrollbar-thumb-gray-600 mr-2">
             {tabsData[activeTabIndex].content || 'Loading...'}
           </ul>
         ) : (
-          <ul className="overflow-y-scroll h-10">
+          <ul className="overflow-y-scroll h-10 scrollbar-thin scrollbar-thumb-[#151515] scrollbar-track-gray-200 hover:scrollbar-thumb-gray-600 mr-2">
             {tabsData[activeTabIndex].content || 'Loading...'}
           </ul>
         )}
