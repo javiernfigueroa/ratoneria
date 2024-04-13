@@ -19,6 +19,7 @@ function Local() {
       (shop) => shop.shop_id.toString() === id.toString(),
     );
     setLocal(foundLocal);
+    console.log(foundLocal);
     //localStorage.setItem('local', JSON.stringify(foundLocal));
   }, [id, shops]);
 
@@ -46,20 +47,15 @@ function Local() {
             <Tabs localId={id} view="Shop" />
           </div>
         </div>
-        <div className="flex flex-col w-full md:w-1/2 mt-5 md:mt-0 ">
+        <div className="flex flex-col w-full md:w-1/2 mt-5 md:mt-0">
           <div
-            className=" h-60 md:h-96 p-1 rounded-md w-full md:w-5/6 ml-auto  flex flex-col"
+            className="h-full w-full sm:h-90% p-1 rounded-md  ml-auto  flex flex-col border-2 border-pdark-grey"
             id="chat"
           >
             <Chat local={local.shop_id.toString()} />
           </div>
-          <div className="w-full c mt-10 bg-pdark-grey p-10 rounded-md mx-auto md:w-1/2 text-center">
-            <Link to="/">
-              <h1 className="text-slate-100">URL DEL LOCAL</h1>
-            </Link>
-          </div>
           <div className="mt-5 text-lg mx-auto   ">
-            <SocialLinks urlig="#" urltw="#" urlfb="#" urlyou="#" size="25px" />
+            <SocialLinks urlig={local.instagram} urlfb={local.facebook} urlweb={local.web} size="25px" />
           </div>
         </div>
       </div>

@@ -1,8 +1,9 @@
-import { FaTwitter, FaYoutube, FaInstagram, FaFacebook } from 'react-icons/fa';
+import {FaInstagram, FaFacebook, FaLink } from 'react-icons/fa';
 
-const SocialLinks = ({ urlfb, urlig, urltw, urlyou, size }) => {
+const SocialLinks = ({ urlig, urlfb, urlweb, size }) => {
   return (
     <div className="flex w-1/2">
+      { urlig != null ?
       <a
         href={urlig}
         target="_blank"
@@ -10,15 +11,8 @@ const SocialLinks = ({ urlfb, urlig, urltw, urlyou, size }) => {
         className="text-white mx-1"
       >
         <FaInstagram size={size} />
-      </a>
-      <a
-        href={urltw}
-        target="_blank"
-        rel="noopener noreferrer"
-        className="text-white mx-1"
-      >
-        <FaTwitter size={size} />
-      </a>
+      </a> : null }
+      { urlfb != null ?
       <a
         href={urlfb}
         target="_blank"
@@ -26,15 +20,16 @@ const SocialLinks = ({ urlfb, urlig, urltw, urlyou, size }) => {
         className="text-white mx-1"
       >
         <FaFacebook size={size} />
-      </a>
+      </a>: null }
+      { urlweb != null ?
       <a
-        href={urlyou}
+        href={urlweb}
         target="_blank"
         rel="noopener noreferrer"
         className="text-white mx-1"
       >
-        <FaYoutube size={size} />
-      </a>
+        <FaLink size={size} />
+      </a>: null }
     </div>
   );
 };
