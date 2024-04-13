@@ -12,24 +12,29 @@ function Card({ id, img, title, rating, category }) {
 
   return (
     <div className="flex flex-col h-[600px]">
-      <Link
-        to={`/local/${id}`}
+      <div
         className="flex flex-col w-full h-1/2 rounded gap-5 items-center self-center cursor-pointer"
+        onMouseDown={handleMouseDown}
       >
-        <div
-          className="w-full h-full flex rounded shadow-2xl"
+        <Link
+          to={`/local/${id}`}
+          className="flex flex-col w-full h-full rounded gap-5 items-center self-center cursor-pointer"
           onMouseDown={handleMouseDown}
         >
-          <img src={img} alt="imagen" />
-        </div>
-      </Link>
+          <img
+            className="w-full h-full flex rounded shadow-2xl"
+            src={img}
+            alt="imagen"
+          />
+        </Link>
+      </div>
       <div className="bg-pdark-grey h-auto">
         <p className="flex-auto text-center text-2xl text-white m-2">{title}</p>
         <p className="text-white text-center p-2">{category}</p>
         <div>
           <Star paramRating={rating}></Star>
         </div>
-        <div>
+        <div className="p-2">
           <Tabs localId={id} view={'gallery'}></Tabs>
         </div>
       </div>
