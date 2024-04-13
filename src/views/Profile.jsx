@@ -37,6 +37,7 @@ function Profile() {
                 title={shop.shop_name}
                 img={shop.image}
                 rating={shop.rating}
+                totalRating={shop.total_rating}
                 category={shop.category_id}
               />
             </Link>
