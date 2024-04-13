@@ -34,7 +34,7 @@ function Card({ id, img, title, rating, category }) {
         <div>
           <Star paramRating={rating}></Star>
         </div>
-        <div className="p-2">
+        <div>
           <Tabs localId={id} view={'gallery'}></Tabs>
         </div>
       </div>
