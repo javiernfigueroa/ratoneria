@@ -69,8 +69,10 @@ function Post() {
 
       const imageUrl = await uploadImage();
 
+      const formattedTitle = data.name.toUpperCase();
+
       const formData = {
-        name: data.name,
+        name: formattedTitle,
         address: data.address,
         category_id: parseInt(data.category_id),
         image: imageUrl,
