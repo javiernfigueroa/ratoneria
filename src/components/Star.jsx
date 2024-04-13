@@ -65,7 +65,7 @@ function Star({ paramRating, localId, enableHover }) {
   };
 
   const handleClick = (newRating) => {
-    if (!isCalificated && enableHover === true) {
+    if (isCalificated && enableHover === true) {
       setRating(newRating);
       sendCalification(newRating);
     }
