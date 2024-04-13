@@ -21,11 +21,19 @@ export default function Chat({ local }) {
       const random = Math.floor(Math.random() * 1000);
       setNickname('Rata-Anonima-' + random);
     }
+    if(!localStorage.getItem('room')){
+      localStorage.setItem('room', local);
+
+    }else{
+      if(localStorage.getItem('room') !== local){
+        socket.emit('leave', { room: localStorage.getItem('room'), name: nickname });
+        localStorage.setItem('room', local);
+      }
+    }
+    socket.emit('join', { room: local, name: nickname });
   }, [local]);
 
   useEffect(() => {
-      socket.emit('leave', { room: local, name: nickname });
-      socket.emit('join', { room: local, name: nickname });
       socket.on('message', ({ body, from }) => {
         const msg = { body, from };
         setAllMessages((previousMessages) => [...previousMessages, msg]);
