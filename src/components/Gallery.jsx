@@ -1,4 +1,4 @@
-import { useContext, useState, useEffect } from 'react';
+import { useContext } from 'react';
 import Card from './Card';
 import { AppContext } from '../context/AppContext';
 import useGetShops from '../hooks/useShops';
