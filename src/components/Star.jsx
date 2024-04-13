@@ -113,7 +113,7 @@ function Star({ paramRating, paramTotalRating, localId, enableHover }) {
           </label>
         );
       })}
-      <samp className='text-white'>({paramTotalRating})</samp>
+      <span className='text-white'>({paramTotalRating ? paramTotalRating : "0"})</span>
     </div>
   );
 }
