@@ -4,7 +4,7 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { ENDPOINT } from '../config/constans';
 
-function Star({ paramRating, localId, enableHover }) {
+function Star({ paramRating, paramTotalRating, localId, enableHover }) {
   const [rating, setRating] = useState(paramRating);
   const [hover, setHover] = useState(null);
   const [isCalificated, setIsCalificated] = useState(false);
@@ -113,6 +113,7 @@ function Star({ paramRating, localId, enableHover }) {
           </label>
         );
       })}
+      <samp className='text-white'>({paramTotalRating})</samp>
     </div>
   );
 }

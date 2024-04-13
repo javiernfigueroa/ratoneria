@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom';
 import Tabs from '../components/Tabs';
 import Star from './Star';
 
-function Card({ id, img, title, rating, category }) {
+function Card({ id, img, title, rating, totalRating, category }) {
   const handleMouseDown = (event) => {
     if (event.button === 1) {
       event.preventDefault();
@@ -32,7 +32,7 @@ function Card({ id, img, title, rating, category }) {
         <p className="flex-auto text-center text-2xl text-white m-2 h-1/5">{title}</p>
         <p className="text-white text-center p-2">{category}</p>
         <div>
-          <Star paramRating={rating}></Star>
+          <Star paramRating={rating} paramTotalRating={totalRating} localId={id} enableHover={false}></Star>
         </div>
         <div>
           <Tabs localId={id} view={'gallery'}></Tabs>
