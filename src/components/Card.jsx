@@ -24,7 +24,7 @@ function Card({ id, img, title, rating, category }) {
           <img
             className="w-full h-full flex rounded shadow-2xl"
             src={img}
-            alt="imagen"
+            alt="imagen de un local"
           />
         </Link>
       </div>

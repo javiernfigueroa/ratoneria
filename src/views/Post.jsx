@@ -67,12 +67,20 @@ function Post() {
     try {
       setIsLoading(true);
 
-      const imageUrl = await uploadImage();
+      let imageUrl = '';
 
-      const formattedTitle = data.name.toUpperCase();
+      if (profileImage) {
+        imageUrl = await uploadImage();
+      } else {
+        if (data.category_id === '1') {
+          imageUrl = '/bar-sin-imagen.jpg';
+        } else if (data.category_id === '2') {
+          imageUrl = '/restaurante-sin-imagen.jpg';
+        }
+      }
 
       const formData = {
-        name: formattedTitle,
+        name: data.name.toUpperCase(),
         address: data.address,
         category_id: parseInt(data.category_id),
         image: imageUrl,
