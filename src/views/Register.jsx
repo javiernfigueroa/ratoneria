@@ -3,6 +3,8 @@ import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { ENDPOINT } from '../config/constans';
 import axios from 'axios';
+import { GoogleLogin, GoogleOAuthProvider } from '@react-oauth/google';
+import { jwtDecode } from 'jwt-decode';
 
 //const isSubmit = (data) => console.log(data);
 
@@ -22,9 +24,50 @@ function Register() {
   const navigate = useNavigate();
 
   const password = watch('pass');
+  const clientID = '959939122893-efhseqnnogj59ivjcicdkhah0k3r49dk.apps.googleusercontent.com';
+
+  const onSuccess = async (res) => {
+      try {
+        const { name, email, picture } = jwtDecode(res.credential);
+        const random = Math.floor(Math.random() * 1000);
+        const nickname = name + random;
+        const fullName = name.split(' ');
+        const response = await axios.post(ENDPOINT.users, {
+          first_name: fullName[0],
+          last_name: fullName[1],
+          email: email,
+          nickname: nickname,
+          password: name+random+email+picture,
+        }); 
+        console.log(response.data);
+        //isSubmit(data); // Llama a la función isSubmit y pasa los datos del formulario
+        setRegistrationSuccess(true);
+        setTimeout(() => {
+          navigate('/login');
+          reset();
+        }, 3000);
+      } catch (error) {
+        if (error.response && error.response.status === 409) {
+          setRegistrationError('El correo electrónico ya ha sido registrado.');
+          setShowAlert(true);
+          setTimeout(() => {
+            setShowAlert(false);
+          }, 3000);
+        } else {
+          console.log('Error al enviar la solicitud:', error);
+        }
+      }
+  };
+  const onFailure = (res) => {
+    setRegistrationError('No se pudo realizar el registro: ' + res);
+        setShowAlert(true);
+        setTimeout(() => {
+          setShowAlert(false);
+        }, 3000);
+  };
+
 
   const onSubmit = async (data) => {
-    console.log(data);
     try {
       const response = await axios.post(ENDPOINT.users, {
         first_name: data.nombre,
@@ -84,6 +127,30 @@ function Register() {
           <h1 className="text-3xl sm:text-2xl font-bold mb-4 mt-2 text-center hidden sm:block">
             Crear Cuenta
           </h1>
+          {<div className="w-h-full flex justify-center">
+            <GoogleOAuthProvider clientId={clientID}>
+              <GoogleLogin
+                onSuccess={(credentialResponse) => {
+                  onSuccess(credentialResponse);
+                  console.log(credentialResponse);
+                }}
+                onError={() => {
+                  onFailure();
+                }}
+              />
+            </GoogleOAuthProvider>
+          </div>}
+          <div className="flex justify-center gap-4 mt-2">
+            <div className="text-1 font-bold mb-4 mt-2 text-center hidden sm:block">
+              -------------
+            </div>
+            <h1 className="text-1 font-bold mb-4 mt-2 text-center hidden sm:block">
+              O
+            </h1>
+            <div className="text-1 font-bold mb-4 mt-2 text-center hidden sm:block">
+              -------------
+            </div>
+          </div>
           <h1 className="text-3xl sm:text-2xl font-bold mb-4 mt-2 text-center hidden sm:block">
             Ingrese sus datos
           </h1>
