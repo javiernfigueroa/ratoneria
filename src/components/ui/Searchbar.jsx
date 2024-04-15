@@ -6,20 +6,14 @@ function Searchbar() {
   const [inputValue, setInputValue] = useState('');
   const [typingResponse, setTypingResponse] = useState('');
   const { answer, askQuestion } = useAskQuestion();
+  const [errorMessage, setErrorMessage] = useState('');
+
+  const handleCloseAlert = () => {
+    setErrorMessage('');
+  };
 
   const handleInputChange = (event) => {
     setInputValue(event.target.value);
-  };
-
-  const typeResponse = () => {
-    let currentLength = 0;
-    const interval = setInterval(() => {
-      setTypingResponse(answer.substring(0, currentLength));
-      currentLength++;
-      if (currentLength > answer.length) {
-        clearInterval(interval);
-      }
-    }, 30);
   };
 
   const handleSubmit = async () => {
@@ -32,18 +26,46 @@ function Searchbar() {
         console.error('Error al enviar la pregunta:', error);
       }
     } else {
-      alert('Por favor, ingresa una pregunta antes de enviar.');
+      setErrorMessage('Debes escribir una pregunta valida');
     }
   };
 
   useEffect(() => {
     if (answer) {
+      const typeResponse = () => {
+        let currentLength = 0;
+        const interval = setInterval(() => {
+          setTypingResponse(answer.substring(0, currentLength));
+          currentLength++;
+          if (currentLength > answer.length) {
+            clearInterval(interval);
+            setTimeout(() => {
+              setTypingResponse('');
+            }, 3000);
+          }
+        }, 30);
+      };
       typeResponse();
     }
   }, [answer]);
 
   return (
     <div className="w-[95%] mx-auto mt-12">
+      <div className="fixed left-0 right-0 z-50 mt-4 sm:top-52 lg:top-72 lg:w-[40%] sm:w-[60%] mx-auto">
+        {errorMessage && (
+          <div className="mx-auto bg-gray-500 bg-opacity-70 text-white font-bold p-2 rounded-md shadow-md w-full">
+            <div className="text-center mb-4">{errorMessage}</div>
+            <div className="flex justify-center mt-2">
+              <button
+                onClick={handleCloseAlert}
+                className="bg-porange px-4 py-1 rounded-lg text-white"
+              >
+                Cerrar
+              </button>
+            </div>
+          </div>
+        )}
+      </div>
       <div className="flex gap-2">
         {/* Input para ingresar la pregunta */}
         <input

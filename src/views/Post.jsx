@@ -67,10 +67,20 @@ function Post() {
     try {
       setIsLoading(true);
 
-      const imageUrl = await uploadImage();
+      let imageUrl = '';
+
+      if (profileImage) {
+        imageUrl = await uploadImage();
+      } else {
+        if (data.category_id === '1') {
+          imageUrl = '/bar-sin-imagen.jpg';
+        } else if (data.category_id === '2') {
+          imageUrl = '/restaurante-sin-imagen.jpg';
+        }
+      }
 
       const formData = {
-        name: data.name,
+        name: data.name.toUpperCase(),
         address: data.address,
         category_id: parseInt(data.category_id),
         image: imageUrl,
@@ -106,7 +116,8 @@ function Post() {
   };
 
   return (
-    <div className="flex flex-col w-[50%] text-white mx-auto">
+    <div className="flex flex-col lg:w-[50%] w-[90%] text-white mx-auto">
+      <div id="map"></div>
       <div className="fixed top-0 left-0 right-0 z-50 mt-4">
         {errorMessage && (
           <div className="mx-auto w-1/3 bg-gray-500 bg-opacity-50 text-white font-bold p-2 rounded-md shadow-md">
@@ -132,17 +143,17 @@ function Post() {
             {...register('name', { required: true })}
             className="w-full pr-12 pl-3 py-2 bg-transparent outline-none border focus:border-porange shadow-sm rounded-lg text-white"
             placeholder="Ejemplo Bar nacional"
+            autoComplete="off"
           />
           {errors.name && <span>Campo obligatorio</span>}
-
           <label>Direccion</label>
           <input
             {...register('address', { required: true })}
             className="w-full  pr-12 pl-3 py-2 bg-transparent outline-none border focus:border-porange shadow-sm rounded-lg text-white"
-            placeholder="Ejemplo Calle 1 #123"
+            placeholder="Ingresa la dirección"
+            autoComplete="off"
           />
           {errors.address && <span>Campo obligatorio</span>}
-
           <label>Categoría</label>
           <select
             {...register('category_id', { required: true })}
@@ -170,14 +181,16 @@ function Post() {
             {...register('web', { required: false })}
             type="text"
             className="w-full pr-12 pl-3 py-2 bg-transparent outline-none border focus:border-porange shadow-sm rounded-lg text-white"
-            placeholder='Ejemplo: "https://www.facebook.com/"'
+            placeholder='Ejemplo: "https://www.laratoneria.cl/"'
+            autoComplete="off"
           />
           <label>facebook: Opcional</label>
           <input
             {...register('facebook', { required: false })}
             type="text"
             className="w-full pr-12 pl-3 py-2 bg-transparent outline-none border focus:border-porange shadow-sm rounded-lg text-white"
-            placeholder='Ejemplo: "La ratoneria'
+            placeholder='Ejemplo: "http://www.facebook.com/LaRatoneria"'
+            autoComplete="off"
           />
 
           <label>instagram: opcional</label>
@@ -185,7 +198,8 @@ function Post() {
             {...register('instagram', { required: false })}
             type="text"
             className="w-full pr-12 pl-3 py-2 bg-transparent outline-none border focus:border-porange shadow-sm rounded-lg text-white"
-            placeholder='Ejemplo: "La ratoneriaIG'
+            placeholder='Ejemplo: "http://www.instagram.com/LaRatoneria"'
+            autoComplete="off"
           />
           <input
             type="submit"

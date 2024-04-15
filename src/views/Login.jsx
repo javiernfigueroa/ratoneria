@@ -4,8 +4,8 @@ import { useForm } from 'react-hook-form';
 import { AppContext } from '../context/AppContext';
 import axios from 'axios';
 import { ENDPOINT } from '../config/constans';
-//import { GoogleLogin, GoogleOAuthProvider } from '@react-oauth/google';
-//import { jwtDecode } from 'jwt-decode';
+import { GoogleLogin, GoogleOAuthProvider } from '@react-oauth/google';
+import { jwtDecode } from 'jwt-decode';
 
 function Login() {
   const {
@@ -22,24 +22,30 @@ function Login() {
   const handleCloseAlert = () => {
     setErrorMessage('');
   };
-  // const clientID =
-  //   '959939122893-efhseqnnogj59ivjcicdkhah0k3r49dk.apps.googleusercontent.com';
+  const clientID = '959939122893-efhseqnnogj59ivjcicdkhah0k3r49dk.apps.googleusercontent.com';
 
-  // const onSuccess = (res) => {
-  //   login();
-  //   const { name, email, picture } = jwtDecode(res.credential);
-  //   localStorage.setItem('name', name);
-  //   localStorage.setItem('email', email);
-  //   localStorage.setItem('avatar', picture);
-  //   navigate('/');
-  // };
-  // const onFailure = (res) => {
-  //   console.log('Login failed: res:', res);
-  // };
-
-  // const saveSessionData = (userData) => {
-  //   localStorage.setItem('userData', JSON.stringify(userData));
-  // };
+  const onSuccess = async (res) => {
+    try {
+      const { name, email, picture } = jwtDecode(res.credential);
+      const response = await axios.post(ENDPOINT.auth_google, {
+        email: email,
+      });
+      const { token, user } = response.data;
+      login();
+      localStorage.setItem('token', token);
+      localStorage.setItem('name', name);
+      localStorage.setItem('nickname', user.nickname);
+      localStorage.setItem('id', user.id);
+      localStorage.setItem('avatar', picture);
+      navigate('/');
+    } catch (error) {
+      console.error('Error:', error);
+      setErrorMessage('La contraseña o el correo son incorrectos!!');
+    }
+  };
+  const onFailure = (res) => {
+    setErrorMessage('No se pudo realizar el inicio de sesion: ' + res);
+  };
 
   const onSubmit = async (data) => {
     try {
@@ -111,7 +117,7 @@ function Login() {
             Inicia sesión en La RatonerIA
           </h1>
 
-          {/* <div className="w-h-full flex justify-center">
+          {<div className="w-h-full flex justify-center">
             <GoogleOAuthProvider clientId={clientID}>
               <GoogleLogin
                 onSuccess={(credentialResponse) => {
@@ -124,7 +130,7 @@ function Login() {
                 }}
               />
             </GoogleOAuthProvider>
-          </div> */}
+          </div>}
           <div className="flex justify-center gap-4 mt-2">
             <div className="text-1 font-bold mb-4 mt-2 text-center hidden sm:block">
               -------------

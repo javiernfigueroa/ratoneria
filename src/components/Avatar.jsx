@@ -15,7 +15,7 @@ function Avatar() {
         </div>
         <div>
           <Link to="/Post">
-            <Button>publicar</Button>
+            <Button>Publicar</Button>
           </Link>
         </div>
       </div>
