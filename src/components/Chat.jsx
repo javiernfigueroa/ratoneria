@@ -103,7 +103,7 @@ export default function Chat({ local }) {
         }}
       />
       <ul
-        className="max-h-96 sm:max-h-28 list-none h-full overflow-y-scroll p-2 w-[90%] mx-auto mt-5 scrollbar-thin scrollbar-thumb-[#151515] scrollbar-track-gray-200 hover:scrollbar-thumb-gray-600"
+        className="lg:min-h-[35em] sm:max-h-44 list-none h-full overflow-y-scroll p-2 w-[90%] mx-auto mt-5 scrollbar-thin scrollbar-thumb-[#151515] scrollbar-track-gray-200 hover:scrollbar-thumb-gray-600"
         id="chat-messages"
       >
         {allMessages.map((msg, index) => (
