@@ -35,27 +35,37 @@ function Local() {
       </div>
       <div className="flex flex-col md:flex-row justify-center md:justify-evenly  mt-10">
         <div className="w-full md:w-1/2  flex flex-col items-center">
-          <div className="h-60 md:h-96 w-60 md:w-96 mb-5">
+          <div className="h-60 md:h-96 w-60 md:w-96 mb-5 sm:w-[100%]">
             <img
               className="mx-auto h-full rounded-md"
               src={local.image}
               alt=""
             />
           </div>
-          <Star paramRating={local.rating} paramTotalRating={local.total_rating} localId={id} enableHover={true}></Star>
-          <div className="mt-10 w-11/12 md:w-5/6 ">
+          <Star
+            paramRating={local.rating}
+            paramTotalRating={local.total_rating}
+            localId={id}
+            enableHover={true}
+          ></Star>
+          <div className=" mt-2 w-11/12 md:w-5/6 ">
             <Tabs localId={id} view="Shop" />
           </div>
         </div>
         <div className="flex flex-col w-full md:w-1/2 mt-5 md:mt-0">
           <div
-            className="h-full w-full sm:h-90% p-1 rounded-md  ml-auto  flex flex-col border-2 border-pdark-grey"
+            className="h-full w-full p-1 rounded-md  ml-auto  flex flex-col border-2 border-pdark-grey"
             id="chat"
           >
             <Chat local={local.shop_id.toString()} />
           </div>
           <div className="mt-5 text-lg mx-auto   ">
-            <SocialLinks urlig={local.instagram} urlfb={local.facebook} urlweb={local.web} size="25px" />
+            <SocialLinks
+              urlig={local.instagram}
+              urlfb={local.facebook}
+              urlweb={local.web}
+              size="25px"
+            />
           </div>
         </div>
       </div>

@@ -15,18 +15,19 @@ export default function Chat({ local }) {
   const [allMessages, setAllMessages] = useState([]);
   const [isFlashing, setIsFlashing] = useState(false);
 
-
   useEffect(() => {
-    if(!nickname){
+    if (!nickname) {
       const random = Math.floor(Math.random() * 1000);
       setNickname('Rata-Anonima-' + random);
     }
-    if(!localStorage.getItem('room')){
+    if (!localStorage.getItem('room')) {
       localStorage.setItem('room', local);
-
-    }else{
-      if(localStorage.getItem('room') !== local){
-        socket.emit('leave', { room: localStorage.getItem('room'), name: nickname });
+    } else {
+      if (localStorage.getItem('room') !== local) {
+        socket.emit('leave', {
+          room: localStorage.getItem('room'),
+          name: nickname,
+        });
         localStorage.setItem('room', local);
       }
     }
@@ -34,11 +35,13 @@ export default function Chat({ local }) {
   }, [local]);
 
   useEffect(() => {
-      socket.on('message', ({ body, from }) => {
-        const msg = { body, from };
-        setAllMessages((previousMessages) => [...previousMessages, msg]);
-      });
-    return () => { socket.off('message'); };
+    socket.on('message', ({ body, from }) => {
+      const msg = { body, from };
+      setAllMessages((previousMessages) => [...previousMessages, msg]);
+    });
+    return () => {
+      socket.off('message');
+    };
   }, []);
 
   useEffect(() => {
@@ -100,7 +103,7 @@ export default function Chat({ local }) {
         }}
       />
       <ul
-        className="list-none h-full overflow-y-scroll p-2 w-[90%] mx-auto mt-5 scrollbar-thin scrollbar-thumb-[#151515] scrollbar-track-gray-200 hover:scrollbar-thumb-gray-600"
+        className="max-h-96 sm:max-h-28 list-none h-full overflow-y-scroll p-2 w-[90%] mx-auto mt-5 scrollbar-thin scrollbar-thumb-[#151515] scrollbar-track-gray-200 hover:scrollbar-thumb-gray-600"
         id="chat-messages"
       >
         {allMessages.map((msg, index) => (
@@ -117,26 +120,33 @@ export default function Chat({ local }) {
       <form
         className="w-[90%] mx-auto mt-10"
         onSubmit={(e) => handleSendMessage(e)}
-      >{localStorage.getItem('id') && localStorage.getItem('token') ? (
-        <>
-        <input
-          className="w-9/12 h-[30px] mr-5 p-2 text-black"
-          type="text"
-          name="message"
-          id="input"
-          placeholder={localStorage.getItem('id') ? 'Escribe un mensaje...' : "Regístrate para enviar mensajes..."}
-          onChange={(e) => handleMessageChange(e)}
-          value={message}
-          autoComplete="off"
-          maxLength={100}
-        />
-        {/* Verificar si el usuario está logueado antes de mostrar el botón de enviar */}
-        
-                  <button className="bg-porange rounded-md px-3 py-1">Enviar</button></>
-                ) : (
-                 <span className="text-red-600 font-bold text-lg">Para chatear debes estar logueado</span>
-                )}
-       
+      >
+        {localStorage.getItem('id') && localStorage.getItem('token') ? (
+          <>
+            <input
+              className="w-9/12 h-[30px] mr-5 p-2 text-black"
+              type="text"
+              name="message"
+              id="input"
+              placeholder={
+                localStorage.getItem('id')
+                  ? 'Escribe un mensaje...'
+                  : 'Regístrate para enviar mensajes...'
+              }
+              onChange={(e) => handleMessageChange(e)}
+              value={message}
+              autoComplete="off"
+              maxLength={100}
+            />
+            {/* Verificar si el usuario está logueado antes de mostrar el botón de enviar */}
+
+            <button className="bg-porange rounded-md px-3 py-1">Enviar</button>
+          </>
+        ) : (
+          <span className="text-red-600 font-bold text-lg">
+            Para chatear debes estar logueado
+          </span>
+        )}
       </form>
     </section>
   );

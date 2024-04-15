@@ -11,3 +11,18 @@ body {
   background-size: cover;
   background-repeat: no-repeat;
 }
+
+@media (max-width: 768px) {
+  .star-icon {
+    font-size: 25px; 
+  }
+}
+
+@media (min-width: 769px) {
+  .star-icon {
+    font-size: 35px;
+  }
+}
+
+/* Agrega más media queries según sea necesario para otros tamaños de pantalla */
+

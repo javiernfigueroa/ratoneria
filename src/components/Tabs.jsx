@@ -131,7 +131,7 @@ function Tabs({ localId, view }) {
   ];
 
   return (
-    <div className="ml-5 text-white">
+    <div className="text-white">
       <div className="flex gap-3 ml-4 ">
         {tabsData.map((tab, idx) => (
           <button
@@ -175,7 +175,7 @@ function Tabs({ localId, view }) {
         )}
       </div>
       {showForm && (
-        <div className="absolute w-full lg:w-[500px] h-[600px] md:w-[400px] md:h-[500px] sm:w-[290px] sm:h-auto z-10 bg-transparent top-1/4 left-1/2 transform -translate-x-1/2 ">
+        <div className="absolute w-full lg:w-[500px] h-[600px] md:w-[400px] md:h-[500px] sm:w-[90%] sm:h-auto z-10 bg-transparent top-1/4 left-1/2 transform -translate-x-1/2 ">
           <div className="h-full bg-pgrey rounded-xl">
             <div className="flex justify-between p-5">
               <h3 className="text-white">
