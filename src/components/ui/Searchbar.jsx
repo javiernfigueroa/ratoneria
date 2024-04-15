@@ -53,7 +53,7 @@ function Searchbar() {
     <div className="w-[95%] mx-auto mt-12">
       <div className="fixed left-0 right-0 z-50 mt-4 sm:top-52 lg:top-72 lg:w-[40%] sm:w-[60%] mx-auto">
         {errorMessage && (
-          <div className="mx-auto w-1/3 bg-gray-500 bg-opacity-70 text-white font-bold p-2 rounded-md shadow-md w-full">
+          <div className="mx-auto bg-gray-500 bg-opacity-70 text-white font-bold p-2 rounded-md shadow-md w-full">
             <div className="text-center mb-4">{errorMessage}</div>
             <div className="flex justify-center mt-2">
               <button
