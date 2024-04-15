@@ -75,7 +75,7 @@ function Star({ paramRating, paramTotalRating, localId, enableHover }) {
     <div className="flex flex-row justify-center mb-3">
       <div className="fixed top-0 left-0 right-0 z-50 mt-4">
         {errorMessage && (
-          <div className="mx-auto w-1/3 bg-gray-500 bg-opacity-70 text-white font-bold p-2 rounded-md shadow-md">
+          <div className="mx-auto w-1/3 bg-gray-500 bg-opacity-70 text-white font-bold p-2 rounded-md shadow-md ">
             <div className="text-center mb-4">{errorMessage}</div>
             <div className="flex justify-center mt-2">
               <button
@@ -100,8 +100,7 @@ function Star({ paramRating, paramTotalRating, localId, enableHover }) {
               onClick={() => handleClick(currentRating)}
             />
             <FaStar
-              className="cursor-pointer"
-              size={35}
+              className="cursor-pointer star-icon"
               color={
                 currentRating <= (enableHover ? hover || rating : rating)
                   ? '#ffa31a'
@@ -113,7 +112,9 @@ function Star({ paramRating, paramTotalRating, localId, enableHover }) {
           </label>
         );
       })}
-      <span className='text-white'>({paramTotalRating ? paramTotalRating : "0"})</span>
+      <span className="text-white">
+        ({paramTotalRating ? paramTotalRating : '0'})
+      </span>
     </div>
   );
 }

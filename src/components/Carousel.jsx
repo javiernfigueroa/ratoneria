@@ -40,10 +40,17 @@ export default function Carousel({ slides }) {
           ))}
         </div>
         <div className="absolute top-0 h-full w-full flex justify-between items-center text-black px-10 text-3xl">
-          <button className="text-pgrey text-opacity-10" onClick={previousSlide}>
+          <button
+            className="text-pgrey text-opacity-10 hidden md:block"
+            onClick={previousSlide}
+          >
             <BsFillArrowLeftCircleFill />
           </button>
-          <button className="text-pgrey text-opacity-10" onClick={nextSlide}>
+
+          <button
+            className="text-pgrey text-opacity-10 hidden md:block"
+            onClick={nextSlide}
+          >
             <BsFillArrowRightCircleFill />
           </button>
         </div>

@@ -65,7 +65,7 @@ const Gallery = () => {
           </select>
         </div>
       </div>
-      <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-4 xl:grid-cols-4 gap-5 p-10">
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-4 gap-5 lg:p-8 md:p-6 sm:p-3">
         {filteredCards.map((shop) => (
           <Card
             key={shop.shop_id}
