@@ -6,20 +6,14 @@ function Searchbar() {
   const [inputValue, setInputValue] = useState('');
   const [typingResponse, setTypingResponse] = useState('');
   const { answer, askQuestion } = useAskQuestion();
+  const [errorMessage, setErrorMessage] = useState('');
+
+  const handleCloseAlert = () => {
+    setErrorMessage('');
+  };
 
   const handleInputChange = (event) => {
     setInputValue(event.target.value);
-  };
-
-  const typeResponse = () => {
-    let currentLength = 0;
-    const interval = setInterval(() => {
-      setTypingResponse(answer.substring(0, currentLength));
-      currentLength++;
-      if (currentLength > answer.length) {
-        clearInterval(interval);
-      }
-    }, 30);
   };
 
   const handleSubmit = async () => {
@@ -32,18 +26,47 @@ function Searchbar() {
         console.error('Error al enviar la pregunta:', error);
       }
     } else {
-      alert('Por favor, ingresa una pregunta antes de enviar.');
+      setErrorMessage('Debes escribir una pregunta valida');
     }
   };
 
   useEffect(() => {
     if (answer) {
+      const typeResponse = () => {
+        let currentLength = 0;
+        const interval = setInterval(() => {
+          setTypingResponse(answer.substring(0, currentLength));
+          currentLength++;
+          if (currentLength > answer.length) {
+            clearInterval(interval);
+            // Borra la respuesta después de 3 segundos
+            setTimeout(() => {
+              setTypingResponse('');
+            }, 3000);
+          }
+        }, 30);
+      };
       typeResponse();
     }
   }, [answer]);
 
   return (
     <div className="w-[95%] mx-auto mt-12">
+      <div className="fixed top-1/3 left-0 right-0 z-50 mt-4">
+        {errorMessage && (
+          <div className="mx-auto w-1/3 bg-gray-500 bg-opacity-70 text-white font-bold p-2 rounded-md shadow-md">
+            <div className="text-center mb-4">{errorMessage}</div>
+            <div className="flex justify-center mt-2">
+              <button
+                onClick={handleCloseAlert}
+                className="bg-porange px-4 py-1 rounded-lg text-white"
+              >
+                Cerrar
+              </button>
+            </div>
+          </div>
+        )}
+      </div>
       <div className="flex gap-2">
         {/* Input para ingresar la pregunta */}
         <input
