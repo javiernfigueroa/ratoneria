@@ -27,8 +27,10 @@ function Login() {
   const onSuccess = async (res) => {
     try {
       const { name, email, picture } = jwtDecode(res.credential);
-      const response = await axios.post(ENDPOINT.auth_google, {
+      const { client_id } = jwtDecode(res);
+      const response = await axios.post(ENDPOINT.auth_user, {
         email: email,
+        password: client_id,
       });
       const { token, user } = response.data;
       login();
