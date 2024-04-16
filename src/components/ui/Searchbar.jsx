@@ -1,13 +1,15 @@
 import { useState, useEffect } from 'react';
 import Button from './Button';
 import useAskQuestion from '../../hooks/useAskQuestions';
+import axios from 'axios';
+import { URLBASE } from '../../config/constans';
 
 function Searchbar() {
   const [inputValue, setInputValue] = useState('');
   const [typingResponse, setTypingResponse] = useState('');
   const { answer, askQuestion } = useAskQuestion();
   const [errorMessage, setErrorMessage] = useState('');
-
+  
   const handleCloseAlert = () => {
     setErrorMessage('');
   };
@@ -29,7 +31,23 @@ function Searchbar() {
       setErrorMessage('Debes escribir una pregunta valida');
     }
   };
-
+  /* TRAE LOS LOCALES QUE MENCIONA LA RESPUESTA DE LA IA */
+  const getShopAnswer = async () => {
+    if (answer) {
+      const matches = answer.match(/\b[A-ZÁÉÍÓÚÜÑ]{4,}\b/g);
+      const responseMatches = await axios({
+        method: 'post',
+        url: `${URLBASE}/shops_by_name`,
+        data: {
+          shopName: matches,
+        },
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+      console.log(responseMatches.data);
+    }
+  };
   useEffect(() => {
     if (answer) {
       const typeResponse = () => {
@@ -46,6 +64,7 @@ function Searchbar() {
         }, 30);
       };
       typeResponse();
+      getShopAnswer();
     }
   }, [answer]);
 

@@ -1,3 +1,6 @@
+import { Link } from 'react-router-dom';
+import Button from '../components/ui/Button';
+
 function NotFound() {
   return (
     <section
@@ -13,6 +16,11 @@ function NotFound() {
         src="./bg_not_found_2.png"
         alt="not found pic"
       />
+        <div className="absolute inset-0 flex items-end justify-center mb-20">
+          <Link to="/">
+            <Button> Volver al Inicio</Button>
+          </Link>
+        </div>
     </section>
   );
 }
