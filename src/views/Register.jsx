@@ -28,19 +28,18 @@ function Register() {
 
   const onSuccess = async (res) => {
       try {
-        const { name, email, picture } = jwtDecode(res.credential);
-        const random = Math.floor(Math.random() * 1000);
-        const nickname = name + random;
+        const { name, email} = jwtDecode(res.credential);
+        const { client_id } = jwtDecode(res);
+        const nickname = "Rata_" + name;
         const fullName = name.split(' ');
         const response = await axios.post(ENDPOINT.users, {
           first_name: fullName[0],
           last_name: fullName[1],
           email: email,
           nickname: nickname,
-          password: name+random+email+picture,
+          password: client_id,
         }); 
         console.log(response.data);
-        //isSubmit(data); // Llama a la función isSubmit y pasa los datos del formulario
         setRegistrationSuccess(true);
         setTimeout(() => {
           navigate('/login');

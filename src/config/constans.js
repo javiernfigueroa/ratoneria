@@ -10,6 +10,4 @@ export const ENDPOINT = {
   shops_paginated: `${URLBASE}/shops_whit_pagination`,
   consumed: `${URLBASE}/consumed`,
   auth_user: `${URLBASE}/auth_user`,
-  auth_google: `${URLBASE}/auth_google`,
-  register_google: `${URLBASE}/register_google`,
 };
