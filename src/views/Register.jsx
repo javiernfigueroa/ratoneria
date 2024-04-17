@@ -29,19 +29,21 @@ function Register() {
   const onSuccess = async (res) => {
       try {
         const { name, email, picture } = jwtDecode(res.credential);
-        const nickname = "Rata_" + name;
         const fullName = name.split(' ');
+        const nickname = "Rata_" + fullName[0] + "_" + fullName[1];
+        const googlePassword = import.meta.env.PASSWORD_GOOGLE;
+        console.log(googlePassword);
         const responseRegister = await axios.post(ENDPOINT.users, {
           first_name: fullName[0],
           last_name: fullName[1],
           email: email,
           nickname: nickname,
-          password: import.meta.env.PASSWORD_GOOGLE,
+          password: googlePassword,
         });
         console.log(responseRegister.data);
         const responseLogin = await axios.post(ENDPOINT.auth_user, {
           email: email,
-          password: import.meta.env.PASSWORD_GOOGLE,
+          password: googlePassword,
         });
         const { token, user } = responseLogin.data;
         login();
