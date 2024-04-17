@@ -11,8 +11,17 @@ const Gallery = () => {
   const [loadedCount, setLoadedCount] = useState(8);
 
   useEffect(() => {
-    setLoadedShops(shopsData.length > 0 ? shopsData.slice(0, loadedCount) : shops.slice(0, loadedCount));
-  }, [shops, shopsData, loadedCount]);
+    const activeShops = shopsData.length > 0 ? shopsData : shops;
+    const filteredShops = activeShops.filter((shop) => {
+      const passesCategoryFilter =
+        filters.category === '' || shop.category_name === filters.category;
+      const passesRatingFilter =
+        filters.rating === '' ||
+        parseFloat(shop.rating) === parseFloat(filters.rating);
+      return passesCategoryFilter && passesRatingFilter;
+    });
+    setLoadedShops(filteredShops.slice(0, loadedCount));
+  }, [shops, shopsData, loadedCount, filters]);
 
   const handleFilterChange = (e) => {
     const { name, value } = e.target;
