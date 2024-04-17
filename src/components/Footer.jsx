@@ -1,4 +1,5 @@
 import { FaTwitter, FaYoutube, FaInstagram, FaFacebook } from 'react-icons/fa';
+import { Link } from 'react-router-dom';
 
 const Footer = () => {
   const socialLinks = {
@@ -7,9 +8,21 @@ const Footer = () => {
     facebook: 'https://www.facebook.com/tu_cuenta',
     youtube: 'https://www.youtube.com/tu_cuenta',
   };
-
   return (
-    <footer className="bg-pdark-grey text-white font-sans text-xs sm:text-sm py-1 px-4 border-b border-gray-400">
+    <footer className="flex justify-center gap-16 bg-pdark-grey text-white font-sans text-xs sm:text-sm py-1 px-4 border-b border-gray-400">
+      <div className="flex flex-col justify-center items-center float-left">
+        <div className="mt-2">
+          <Link to="/terms" className="text-center">
+            <span className="text-porange hover:text-black h-[30px]">Terminos y Condiciones</span>
+          </Link>
+        </div>
+        <div className="mt-2">
+          <Link to="/privacy" className="text-center">
+            <span className="text-porange hover:text-black h-[30px]">Politica de privacidad</span>
+          </Link>
+        </div>
+      </div>
+      <div>
       <div className="max-w-lg mx-auto flex justify-center items-center">
         <div className="flex items-center">
           <img
@@ -21,9 +34,6 @@ const Footer = () => {
             ¿Buscas calidad? nosotros buscamos precios ratones.
           </p>
         </div>
-      </div>
-      <div className="mt-2">
-        <ul className="flex justify-center space-x-2"></ul>
       </div>
       <div className="mt-2 flex justify-center items-center">
         <p className="text-center mr-2 text-xs sm:text-sm lg:text-base p-2">
@@ -63,6 +73,7 @@ const Footer = () => {
             <FaYoutube size={16} />
           </a>
         </div>
+      </div>
       </div>
     </footer>
   );

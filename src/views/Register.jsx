@@ -1,12 +1,11 @@
 import { useForm } from 'react-hook-form';
-import { useState } from 'react';
+import { useState, useContext } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import { AppContext } from '../context/AppContext';
 import { ENDPOINT } from '../config/constans';
 import axios from 'axios';
 import { GoogleLogin, GoogleOAuthProvider } from '@react-oauth/google';
 import { jwtDecode } from 'jwt-decode';
-
-//const isSubmit = (data) => console.log(data);
 
 function Register() {
   const {
@@ -22,29 +21,37 @@ function Register() {
   const [registrationError, setRegistrationError] = useState('');
   const [showAlert, setShowAlert] = useState(false);
   const navigate = useNavigate();
+  const { login } = useContext(AppContext);
 
   const password = watch('pass');
   const clientID = '959939122893-efhseqnnogj59ivjcicdkhah0k3r49dk.apps.googleusercontent.com';
 
   const onSuccess = async (res) => {
       try {
-        const { name, email} = jwtDecode(res.credential);
-        const { client_id } = jwtDecode(res);
+        const { name, email, picture } = jwtDecode(res.credential);
         const nickname = "Rata_" + name;
         const fullName = name.split(' ');
-        const response = await axios.post(ENDPOINT.users, {
+        const responseRegister = await axios.post(ENDPOINT.users, {
           first_name: fullName[0],
           last_name: fullName[1],
           email: email,
           nickname: nickname,
-          password: client_id,
-        }); 
-        console.log(response.data);
+          password: import.meta.env.PASSWORD_GOOGLE,
+        });
+        console.log(responseRegister.data);
+        const responseLogin = await axios.post(ENDPOINT.auth_user, {
+          email: email,
+          password: import.meta.env.PASSWORD_GOOGLE,
+        });
+        const { token, user } = responseLogin.data;
+        login();
+        localStorage.setItem('token', token);
+        localStorage.setItem('name', name);
+        localStorage.setItem('nickname', user.nickname);
+        localStorage.setItem('id', user.id);
+        localStorage.setItem('avatar', picture);
         setRegistrationSuccess(true);
-        setTimeout(() => {
-          navigate('/login');
-          reset();
-        }, 3000);
+        navigate('/');
       } catch (error) {
         if (error.response && error.response.status === 409) {
           setRegistrationError('El correo electrónico ya ha sido registrado.');
