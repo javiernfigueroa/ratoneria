@@ -29,18 +29,18 @@ function Profile() {
         {/* Contenedor principal de las cards */}
         <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-4 xl:grid-cols- gap-5 p-10">
           {userShops.map((shop) => (
-            <Link to={`/local/${shop.shop_id}`} key={shop.shop_id}>
-              {/* Enlace a la tienda */}
-              <Card
-                key={shop.shop_id}
-                id={shop.shop_id}
-                title={shop.shop_name}
-                img={shop.image}
-                rating={shop.rating}
-                totalRating={shop.total_rating}
-                category={shop.category_id}
-              />
-            </Link>
+            // <Link to={`/local/${shop.shop_id}`} key={shop.shop_id}>
+
+            <Card
+              key={shop.shop_id}
+              id={shop.shop_id}
+              title={shop.shop_name}
+              img={shop.image}
+              rating={shop.rating}
+              totalRating={shop.total_rating}
+              category={shop.category_id}
+            />
+            // </Link>
           ))}
         </div>
       </div>
