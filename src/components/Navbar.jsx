@@ -1,5 +1,5 @@
 import { useContext, useState, useRef, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, Navigate, useNavigate } from 'react-router-dom';
 import { AppContext } from '../context/AppContext';
 
 const Navbar = ({ handleLogin }) => {
@@ -7,6 +7,7 @@ const Navbar = ({ handleLogin }) => {
   const [isHovered, setIsHovered] = useState(false);
   const logoRef = useRef(null);
   const navigation = [];
+  const navigate = useNavigate();
   const { isLoggedIn, logout } = useContext(AppContext);
 
   const name = localStorage.getItem('name');
@@ -28,7 +29,9 @@ const Navbar = ({ handleLogin }) => {
 
   const handleLogoClick = () => {
     // Redirigir al usuario al home ("/")
-    history.push('/');
+    navigate('/', { replace: true });
+
+    window.location.reload();
   };
 
   return (
