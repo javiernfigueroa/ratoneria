@@ -27,10 +27,9 @@ function Login() {
   const onSuccess = async (res) => {
     try {
       const { name, email, picture } = jwtDecode(res.credential);
-      const { client_id } = jwtDecode(res);
       const response = await axios.post(ENDPOINT.auth_user, {
         email: email,
-        password: client_id,
+        password: import.meta.env.PASSWORD_GOOGLE,
       });
       const { token, user } = response.data;
       login();
@@ -103,7 +102,7 @@ function Login() {
       </section>
 
       <section className="mx-auto flex items-center ">
-        <div className="max-w-md mt-6">
+        <div className="max-w-md mt-6 flex flex-col items-center">
           <picture className="bg-porange mb-4 w-28 h-30 flex rounded-xl m-auto">
             <Link to="/" className="p-2 m-auto">
               <img
@@ -229,7 +228,13 @@ function Login() {
               </button>
             </div>
           </form>
+          <div className="mt-6">
+            <Link to="/register" className="text-center">
+              <span className="text-black hover:text-porange h-[30px]">No tienes cuenta? Registrate aquí</span>
+            </Link>
+          </div>
         </div>
+        
       </section>
     </div>
   );
