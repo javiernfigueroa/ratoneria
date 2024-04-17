@@ -1,4 +1,4 @@
-import { useContext } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import Card from './Card';
 import { AppContext } from '../context/AppContext';
 import useGetShops from '../hooks/useShops';
@@ -7,21 +7,40 @@ const Gallery = () => {
   const { filters, updateFilters, shopsData } = useContext(AppContext);
   const { shops } = useGetShops();
 
+  const [loadedShops, setLoadedShops] = useState([]);
+  const [loadedCount, setLoadedCount] = useState(8);
+
+  useEffect(() => {
+    setLoadedShops(shops.slice(0, loadedCount));
+  }, [shops, loadedCount]);
+
   const handleFilterChange = (e) => {
     const { name, value } = e.target;
     updateFilters({ ...filters, [name]: value });
   };
 
-  const scrollToTop = () => {
-    window.scrollTo({
-      top: 0,
-      behavior: 'smooth',
-    });
+  const handleScroll = () => {
+    if (
+      window.innerHeight + document.documentElement.scrollTop !==
+      document.documentElement.offsetHeight
+    )
+      return;
+    const newCount = loadedCount + 8;
+    setLoadedCount(newCount);
   };
 
+<<<<<<< HEAD
   const activeShops = shopsData.length > 0 ? shopsData : shops;
 
   const filteredCards = activeShops.filter((shop) => {
+=======
+  useEffect(() => {
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, [loadedCount]);
+
+  const filteredCards = loadedShops.filter((shop) => {
+>>>>>>> 3a265be01c01d846f96d808790a5e117f47c6cd6
     const passesCategoryFilter =
       filters.category === '' || shop.category_name === filters.category;
     const passesRatingFilter =
@@ -30,9 +49,16 @@ const Gallery = () => {
     return passesCategoryFilter && passesRatingFilter;
   });
 
+  const scrollToTop = () => {
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth',
+    });
+  };
+
   return (
     <div className="flex flex-col items-center">
-      <div className="flex w-[95%] gap-4 text-white justify-center space-x-4 bg-porange p-2 rounded-md ">
+      <div className="flex w-[95%] gap-4 text-white justify-center space-x-4 bg-porange p-2 rounded-md">
         <div className="flex flex-col items-center">
           <label htmlFor="category" className="font-bold">
             Categoría
