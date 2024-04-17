@@ -5,6 +5,7 @@ export const AppContext = createContext();
 export const AppProvider = ({ children }) => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [filters, setFilters] = useState({ category: '', rating: '' });
+  const [shopsData, setShopsData] = useState([]);
 
   const login = () => {
     setIsLoggedIn(true);
@@ -33,6 +34,8 @@ export const AppProvider = ({ children }) => {
         logout,
         filters,
         updateFilters,
+        shopsData,
+        setShopsData,
       }}
     >
       {children}
