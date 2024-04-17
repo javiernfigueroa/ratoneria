@@ -6,6 +6,8 @@ import NotFound from '../views/NotFound';
 import Post from '../views/Post';
 import Profile from '../views/Profile';
 import Register from '../views/Register';
+import Privacy from '../views/Privacy';
+import Terms from '../views/Terms';
 import Layout from '../layout/Layout';
 import { AppContext } from '../context/AppContext';
 import { useContext } from 'react';
@@ -57,6 +59,8 @@ function AppRoutes() {
         }
       />
       <Route path="/register" element={<Register />} />
+      <Route path="/privacy" element={<Layout><Privacy /></Layout>} />
+      <Route path="/terms" element={<Layout><Terms /></Layout>} />
       <Route path="*" element={<NotFound />} />
     </Routes>
   );
