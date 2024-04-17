@@ -22,12 +22,13 @@ function Login() {
   const handleCloseAlert = () => {
     setErrorMessage('');
   };
-  const clientID = '959939122893-efhseqnnogj59ivjcicdkhah0k3r49dk.apps.googleusercontent.com';
+  const clientID =
+    '959939122893-efhseqnnogj59ivjcicdkhah0k3r49dk.apps.googleusercontent.com';
 
   const onSuccess = async (res) => {
     try {
       const { name, email, picture } = jwtDecode(res.credential);
-      const googlePassword = import.meta.env.PASSWORD_GOOGLE;
+      const googlePassword = import.meta.env.VITE_PASSWORD_GOOGLE;
       console.log(googlePassword);
       const response = await axios.post(ENDPOINT.auth_user, {
         email: email,
@@ -120,20 +121,22 @@ function Login() {
             Inicia sesión en La RatonerIA
           </h1>
 
-          {<div className="w-h-full flex justify-center">
-            <GoogleOAuthProvider clientId={clientID}>
-              <GoogleLogin
-                onSuccess={(credentialResponse) => {
-                  onSuccess(credentialResponse);
-                  console.log(credentialResponse);
-                }}
-                onError={() => {
-                  onFailure();
-                  console.log('Login Failed');
-                }}
-              />
-            </GoogleOAuthProvider>
-          </div>}
+          {
+            <div className="w-h-full flex justify-center">
+              <GoogleOAuthProvider clientId={clientID}>
+                <GoogleLogin
+                  onSuccess={(credentialResponse) => {
+                    onSuccess(credentialResponse);
+                    console.log(credentialResponse);
+                  }}
+                  onError={() => {
+                    onFailure();
+                    console.log('Login Failed');
+                  }}
+                />
+              </GoogleOAuthProvider>
+            </div>
+          }
           <div className="flex justify-center gap-4 mt-2">
             <div className="text-1 font-bold mb-4 mt-2 text-center hidden sm:block">
               -------------
@@ -232,11 +235,12 @@ function Login() {
           </form>
           <div className="mt-6">
             <Link to="/register" className="text-center">
-              <span className="text-black hover:text-porange h-[30px]">No tienes cuenta? Registrate aquí</span>
+              <span className="text-black hover:text-porange h-[30px]">
+                No tienes cuenta? Registrate aquí
+              </span>
             </Link>
           </div>
         </div>
-        
       </section>
     </div>
   );

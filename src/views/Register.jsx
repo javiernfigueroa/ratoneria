@@ -24,56 +24,56 @@ function Register() {
   const { login } = useContext(AppContext);
 
   const password = watch('pass');
-  const clientID = '959939122893-efhseqnnogj59ivjcicdkhah0k3r49dk.apps.googleusercontent.com';
+  const clientID =
+    '959939122893-efhseqnnogj59ivjcicdkhah0k3r49dk.apps.googleusercontent.com';
 
   const onSuccess = async (res) => {
-      try {
-        const { name, email, picture } = jwtDecode(res.credential);
-        const fullName = name.split(' ');
-        const nickname = "Rata_" + fullName[0] + "_" + fullName[1];
-        const googlePassword = import.meta.env.PASSWORD_GOOGLE;
-        console.log(googlePassword);
-        const responseRegister = await axios.post(ENDPOINT.users, {
-          first_name: fullName[0],
-          last_name: fullName[1],
-          email: email,
-          nickname: nickname,
-          password: googlePassword,
-        });
-        console.log(responseRegister.data);
-        const responseLogin = await axios.post(ENDPOINT.auth_user, {
-          email: email,
-          password: googlePassword,
-        });
-        const { token, user } = responseLogin.data;
-        login();
-        localStorage.setItem('token', token);
-        localStorage.setItem('name', name);
-        localStorage.setItem('nickname', user.nickname);
-        localStorage.setItem('id', user.id);
-        localStorage.setItem('avatar', picture);
-        setRegistrationSuccess(true);
-        navigate('/');
-      } catch (error) {
-        if (error.response && error.response.status === 409) {
-          setRegistrationError('El correo electrónico ya ha sido registrado.');
-          setShowAlert(true);
-          setTimeout(() => {
-            setShowAlert(false);
-          }, 3000);
-        } else {
-          console.log('Error al enviar la solicitud:', error);
-        }
-      }
-  };
-  const onFailure = (res) => {
-    setRegistrationError('No se pudo realizar el registro: ' + res);
+    try {
+      const { name, email, picture } = jwtDecode(res.credential);
+      const fullName = name.split(' ');
+      const nickname = 'Rata_' + fullName[0] + '_' + fullName[1];
+      const googlePassword = import.meta.env.VITE_PASSWORD_GOOGLE;
+      console.log(googlePassword);
+      const responseRegister = await axios.post(ENDPOINT.users, {
+        first_name: fullName[0],
+        last_name: fullName[1],
+        email: email,
+        nickname: nickname,
+        password: googlePassword,
+      });
+      console.log(responseRegister.data);
+      const responseLogin = await axios.post(ENDPOINT.auth_user, {
+        email: email,
+        password: googlePassword,
+      });
+      const { token, user } = responseLogin.data;
+      login();
+      localStorage.setItem('token', token);
+      localStorage.setItem('name', name);
+      localStorage.setItem('nickname', user.nickname);
+      localStorage.setItem('id', user.id);
+      localStorage.setItem('avatar', picture);
+      setRegistrationSuccess(true);
+      navigate('/');
+    } catch (error) {
+      if (error.response && error.response.status === 409) {
+        setRegistrationError('El correo electrónico ya ha sido registrado.');
         setShowAlert(true);
         setTimeout(() => {
           setShowAlert(false);
         }, 3000);
+      } else {
+        console.log('Error al enviar la solicitud:', error);
+      }
+    }
   };
-
+  const onFailure = (res) => {
+    setRegistrationError('No se pudo realizar el registro: ' + res);
+    setShowAlert(true);
+    setTimeout(() => {
+      setShowAlert(false);
+    }, 3000);
+  };
 
   const onSubmit = async (data) => {
     try {
@@ -135,19 +135,21 @@ function Register() {
           <h1 className="text-3xl sm:text-2xl font-bold mb-4 mt-2 text-center hidden sm:block">
             Crear Cuenta
           </h1>
-          {<div className="w-h-full flex justify-center">
-            <GoogleOAuthProvider clientId={clientID}>
-              <GoogleLogin
-                onSuccess={(credentialResponse) => {
-                  onSuccess(credentialResponse);
-                  console.log(credentialResponse);
-                }}
-                onError={() => {
-                  onFailure();
-                }}
-              />
-            </GoogleOAuthProvider>
-          </div>}
+          {
+            <div className="w-h-full flex justify-center">
+              <GoogleOAuthProvider clientId={clientID}>
+                <GoogleLogin
+                  onSuccess={(credentialResponse) => {
+                    onSuccess(credentialResponse);
+                    console.log(credentialResponse);
+                  }}
+                  onError={() => {
+                    onFailure();
+                  }}
+                />
+              </GoogleOAuthProvider>
+            </div>
+          }
           <div className="flex justify-center gap-4 mt-2">
             <div className="text-1 font-bold mb-4 mt-2 text-center hidden sm:block">
               -------------
