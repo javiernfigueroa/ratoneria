@@ -11,6 +11,7 @@ function Login() {
   const {
     register,
     handleSubmit,
+    reset,
     formState: { errors },
   } = useForm();
   const { login } = useContext(AppContext);
@@ -18,11 +19,13 @@ function Login() {
 
   const [isPasswordHidden, setPasswordHidden] = useState(true);
   const [errorMessage, setErrorMessage] = useState('');
+  const [registrationSuccess, setRegistrationSuccess] = useState(false);
 
   const handleCloseAlert = () => {
     setErrorMessage('');
   };
-  const clientID = '959939122893-efhseqnnogj59ivjcicdkhah0k3r49dk.apps.googleusercontent.com';
+  const clientID =
+    '959939122893-efhseqnnogj59ivjcicdkhah0k3r49dk.apps.googleusercontent.com';
 
   const onSuccess = async (res) => {
     try {
@@ -65,7 +68,11 @@ function Login() {
       localStorage.setItem('nickname', user.nickname);
       localStorage.setItem('id', user.id);
       localStorage.setItem('avatar', '../rat-king.png');
-      navigate('/');
+      setRegistrationSuccess(true);
+      setTimeout(() => {
+        navigate('/');
+        reset();
+      }, 1000);
     } catch (error) {
       console.error('Error:', error);
       setErrorMessage('La contraseña o el correo son incorrectos!!');
@@ -117,20 +124,22 @@ function Login() {
             Inicia sesión en La RatonerIA
           </h1>
 
-          {<div className="w-h-full flex justify-center">
-            <GoogleOAuthProvider clientId={clientID}>
-              <GoogleLogin
-                onSuccess={(credentialResponse) => {
-                  onSuccess(credentialResponse);
-                  console.log(credentialResponse);
-                }}
-                onError={() => {
-                  onFailure();
-                  console.log('Login Failed');
-                }}
-              />
-            </GoogleOAuthProvider>
-          </div>}
+          {
+            <div className="w-h-full flex justify-center">
+              <GoogleOAuthProvider clientId={clientID}>
+                <GoogleLogin
+                  onSuccess={(credentialResponse) => {
+                    onSuccess(credentialResponse);
+                    console.log(credentialResponse);
+                  }}
+                  onError={() => {
+                    onFailure();
+                    console.log('Login Failed');
+                  }}
+                />
+              </GoogleOAuthProvider>
+            </div>
+          }
           <div className="flex justify-center gap-4 mt-2">
             <div className="text-1 font-bold mb-4 mt-2 text-center hidden sm:block">
               -------------
@@ -227,6 +236,15 @@ function Login() {
               </button>
             </div>
           </form>
+          {registrationSuccess && (
+            <div className="fixed top-0 left-0 right-0 z-50 mt-4">
+              <div className="mx-auto w-1/3 bg-gray-500 bg-opacity-50 text-white font-bold p-2 rounded-md shadow-md">
+                <div className="text-center mb-4">
+                  ¡Inicio de Sesion exitoso!
+                </div>
+              </div>
+            </div>
+          )}
         </div>
       </section>
     </div>
