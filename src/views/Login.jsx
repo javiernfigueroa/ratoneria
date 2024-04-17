@@ -11,6 +11,7 @@ function Login() {
   const {
     register,
     handleSubmit,
+    reset,
     formState: { errors },
   } = useForm();
   const { login } = useContext(AppContext);
@@ -18,7 +19,7 @@ function Login() {
 
   const [isPasswordHidden, setPasswordHidden] = useState(true);
   const [errorMessage, setErrorMessage] = useState('');
-
+  const [registrationSuccess, setRegistrationSuccess] = useState(false);
   const handleCloseAlert = () => {
     setErrorMessage('');
   };
@@ -69,7 +70,11 @@ function Login() {
       localStorage.setItem('nickname', user.nickname);
       localStorage.setItem('id', user.id);
       localStorage.setItem('avatar', '../rat-king.png');
-      navigate('/');
+      setRegistrationSuccess(true);
+      setTimeout(() => {
+        navigate('/');
+        reset();
+      }, 1000);
     } catch (error) {
       console.error('Error:', error);
       setErrorMessage('La contraseña o el correo son incorrectos!!');
@@ -233,6 +238,16 @@ function Login() {
               </button>
             </div>
           </form>
+
+          {registrationSuccess && (
+            <div className="fixed top-0 left-0 right-0 z-50 mt-4">
+              <div className="mx-auto w-1/3 bg-gray-500 bg-opacity-50 text-white font-bold p-2 rounded-md shadow-md">
+                <div className="text-center mb-4">
+                  ¡Inicio de Sesion exitoso!
+                </div>
+              </div>
+            </div>
+          )}
           <div className="mt-6">
             <Link to="/register" className="text-center">
               <span className="text-black hover:text-porange h-[30px]">
