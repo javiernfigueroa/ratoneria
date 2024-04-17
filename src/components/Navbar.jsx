@@ -20,17 +20,16 @@ const Navbar = ({ handleLogin }) => {
   }, [handleLogin]);
 
   const handleLogout = () => {
-    console.log('Datos de localStorage antes de limpiar:', localStorage);
+    //console.log('Datos de localStorage antes de limpiar:', localStorage);
     localStorage.clear();
-    console.log('Datos de localStorage después de limpiar:', localStorage);
+    //console.log('Datos de localStorage después de limpiar:', localStorage);
     logout();
   };
 
   const handleLogoClick = () => {
     // Redirigir al usuario al home ("/")
-    history.push("/");
+    history.push('/');
   };
-
 
   return (
     <nav

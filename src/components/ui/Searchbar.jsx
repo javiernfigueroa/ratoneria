@@ -24,7 +24,7 @@ function Searchbar() {
     if (inputValue.trim() !== '') {
       try {
         await askQuestion(inputValue.trim());
-        console.log('esta es la pregunta en el front', inputValue.trim());
+        //console.log('esta es la pregunta en el front', inputValue.trim());
         setInputValue('');
       } catch (error) {
         console.error('Error al enviar la pregunta:', error);
@@ -48,7 +48,6 @@ function Searchbar() {
         },
       });
       setShopsData(response.data); // Guarda la respuesta en el estado
-      console.log(response.data);
     }
   };
 
@@ -73,7 +72,7 @@ function Searchbar() {
   }, [answer]);
 
   useEffect(() => {
-    console.log('shopsData ha cambiado:', shopsData);
+    //console.log('shopsData ha cambiado:', shopsData);
   }, [shopsData]);
 
   return (

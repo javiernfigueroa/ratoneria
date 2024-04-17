@@ -19,7 +19,6 @@ function Local() {
       (shop) => shop.shop_id.toString() === id.toString(),
     );
     setLocal(foundLocal);
-    console.log(foundLocal);
     //localStorage.setItem('local', JSON.stringify(foundLocal));
   }, [id, shops]);
 
