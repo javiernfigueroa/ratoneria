@@ -4,7 +4,7 @@ import { AppContext } from '../context/AppContext';
 import useGetShops from '../hooks/useShops';
 
 const Gallery = () => {
-  const { filters, updateFilters } = useContext(AppContext);
+  const { filters, updateFilters, shopsData } = useContext(AppContext);
   const { shops } = useGetShops();
 
   const handleFilterChange = (e) => {
@@ -19,7 +19,9 @@ const Gallery = () => {
     });
   };
 
-  const filteredCards = shops.filter((shop) => {
+  const activeShops = shopsData.length > 0 ? shopsData : shops;
+
+  const filteredCards = activeShops.filter((shop) => {
     const passesCategoryFilter =
       filters.category === '' || shop.category_name === filters.category;
     const passesRatingFilter =

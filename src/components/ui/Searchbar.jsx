@@ -1,15 +1,17 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import Button from './Button';
 import useAskQuestion from '../../hooks/useAskQuestions';
 import axios from 'axios';
 import { URLBASE } from '../../config/constans';
+import { AppContext } from '../../context/AppContext';
 
 function Searchbar() {
   const [inputValue, setInputValue] = useState('');
   const [typingResponse, setTypingResponse] = useState('');
   const { answer, askQuestion } = useAskQuestion();
   const [errorMessage, setErrorMessage] = useState('');
-  
+  const { shopsData, setShopsData } = useContext(AppContext);
+
   const handleCloseAlert = () => {
     setErrorMessage('');
   };
@@ -31,11 +33,11 @@ function Searchbar() {
       setErrorMessage('Debes escribir una pregunta valida');
     }
   };
-  /* TRAE LOS LOCALES QUE MENCIONA LA RESPUESTA DE LA IA */
+
   const getShopAnswer = async () => {
     if (answer) {
       const matches = answer.match(/\b[A-ZÁÉÍÓÚÜÑ]{4,}\b/g);
-      const responseMatches = await axios({
+      const response = await axios({
         method: 'post',
         url: `${URLBASE}/shops_by_name`,
         data: {
@@ -45,9 +47,11 @@ function Searchbar() {
           'Content-Type': 'application/json',
         },
       });
-      console.log(responseMatches.data);
+      setShopsData(response.data); // Guarda la respuesta en el estado
+      console.log(response.data);
     }
   };
+
   useEffect(() => {
     if (answer) {
       const typeResponse = () => {
@@ -68,6 +72,10 @@ function Searchbar() {
     }
   }, [answer]);
 
+  useEffect(() => {
+    console.log('shopsData ha cambiado:', shopsData);
+  }, [shopsData]);
+
   return (
     <div className="w-[95%] mx-auto mt-12">
       <div className="fixed left-0 right-0 z-50 mt-4 sm:top-52 lg:top-72 lg:w-[40%] sm:w-[60%] mx-auto">
@@ -86,7 +94,6 @@ function Searchbar() {
         )}
       </div>
       <div className="flex gap-2">
-        {/* Input para ingresar la pregunta */}
         <input
           value={inputValue}
           onChange={handleInputChange}
@@ -94,17 +101,13 @@ function Searchbar() {
           placeholder="Preguntame algo..."
           className="w-full py-3 pl-5 pr-4 text-[#fff] text-3xl rounded-md outline-none bg-pgrey focus:bg-pgrey"
         />
-        {/* Botón para enviar la pregunta */}
         <Button onClick={handleSubmit}>Enviar</Button>
       </div>
-
-      {/* Contenedor para mostrar la respuesta */}
       <div
         className="feed-container mt-3 mb-3"
         style={{ maxHeight: '200px', overflowY: 'auto' }}
       >
         <ul className="feed">
-          {/* Muestra la respuesta */}
           <li className="text-porange font-extrabold text-2xl p-2">
             {typingResponse}
           </li>
