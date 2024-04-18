@@ -1,7 +1,6 @@
 import { useState, useEffect } from 'react';
 import { FaStar } from 'react-icons/fa';
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
 import { ENDPOINT } from '../config/constans';
 
 function Star({
@@ -15,7 +14,6 @@ function Star({
   const [hover, setHover] = useState(null);
   const [isCalificated, setIsCalificated] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
-  const navigate = useNavigate();
 
   const handleCloseAlert = () => {
     setErrorMessage('');
@@ -64,7 +62,6 @@ function Star({
         error.response.data.error === 'el token no es valido'
       ) {
         localStorage.clear();
-        navigate('/login');
         setErrorMessage('Debes iniciar sesion para calificar');
       } else {
         // Handle other errors as needed
