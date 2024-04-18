@@ -63,7 +63,7 @@ function Star({ paramRating, paramTotalRating, localId, enableHover }) {
       // Manejar el error según tus necesidades
     }
   };
-
+  //Envia nuevo rating
   const handleClick = (newRating) => {
     if (isCalificated && enableHover === true) {
       setRating(newRating);
