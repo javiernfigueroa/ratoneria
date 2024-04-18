@@ -24,9 +24,7 @@ const Footer = () => {
           </div>
         </div>
         <div className="mt-2 flex justify-center items-center">
-          <p className="text-center mr-2  sm:text-sm lg:text-[12px] p-2">
-            &copy; 2024 La RatonerIA all rights reserved.
-          </p>
+
           <div className="flex">
             <a
               href={socialLinks.instagram}
@@ -78,6 +76,9 @@ const Footer = () => {
             </Link>
           </div>
         </div>
+        <p className="text-center mr-2  sm:text-sm lg:text-[12px]">
+            &copy; 2024 La RatonerIA all rights reserved.
+          </p>
       </div>
     </footer>
   );
