@@ -4,7 +4,13 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { ENDPOINT } from '../config/constans';
 
-function Star({ paramRating, paramTotalRating, localId, enableHover }) {
+function Star({
+  paramRating,
+  paramTotalRating,
+  localId,
+  enableHover,
+  setParamTotalRating,
+}) {
   const [rating, setRating] = useState(paramRating);
   const [hover, setHover] = useState(null);
   const [isCalificated, setIsCalificated] = useState(false);
@@ -41,31 +47,35 @@ function Star({ paramRating, paramTotalRating, localId, enableHover }) {
         calification: calification,
       };
 
-      // Configurar el encabezado de la solicitud con el token
       const config = {
         headers: {
           Authorization: `Bearer ${token}`,
         },
       };
 
-      // Realizar la solicitud POST al backend con el encabezado configurado
-      await axios.post(ENDPOINT.reviews, data, config);
-      setIsCalificated(true);
-    } catch (error) {
-      if (error.response.data.error === 'el token no es valido') {
-        if (localStorage.getItem('id')) {
-          localStorage.clear();
-          navigate('/login');
-        }
-        localStorage.clear();
-        setErrorMessage('Debes iniciar sesion para calificar');
+      const response = await axios.post(ENDPOINT.reviews, data, config);
+      if (response.data && response.data.newTotalRating !== undefined) {
+        setParamTotalRating(response.data.newTotalRating); // Update the totalRating state in Local
+        setIsCalificated(true);
       }
-      // Manejar el error según tus necesidades
+    } catch (error) {
+      if (
+        error.response &&
+        error.response.data.error === 'el token no es valido'
+      ) {
+        localStorage.clear();
+        navigate('/login');
+        setErrorMessage('Debes iniciar sesion para calificar');
+      } else {
+        // Handle other errors as needed
+        setErrorMessage('Error al enviar la calificación');
+      }
     }
   };
 
+  //Envia nuevo rating
   const handleClick = (newRating) => {
-    if (isCalificated && enableHover === true) {
+    if (!isCalificated && enableHover) {
       setRating(newRating);
       sendCalification(newRating);
     }
@@ -97,7 +107,6 @@ function Star({ paramRating, paramTotalRating, localId, enableHover }) {
               type="radio"
               name="rating"
               value={currentRating}
-              onClick={() => handleClick(currentRating)}
             />
             <FaStar
               className="cursor-pointer star-icon"
@@ -108,6 +117,7 @@ function Star({ paramRating, paramTotalRating, localId, enableHover }) {
               }
               onMouseEnter={() => enableHover && setHover(currentRating)}
               onMouseLeave={() => enableHover && setHover(null)}
+              onClick={() => handleClick(currentRating)}
             />
           </label>
         );
