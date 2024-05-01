@@ -75,6 +75,13 @@ const Footer = () => {
               </span>
             </Link>
           </div>
+          <div>
+            <Link to="/AbautUs" className="text-center">
+              <span className="text-porange text-[10px] hover:text-white">
+                Acerca de nosotros
+              </span>
+            </Link>
+          </div>
         </div>
         <p className="text-center mr-2  sm:text-sm lg:text-[12px]">
             &copy; 2024 La RatonerIA all rights reserved.
